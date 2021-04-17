@@ -1,4 +1,3 @@
-const { AsyncLocalStorage } = require('async_hooks');
 const bluebird = require('bluebird');
 const redis = require('redis');
 
@@ -6,6 +5,29 @@ const client = redis.createClient();
 
 bluebird.promisifyAll(redis.RedisClient.prototype);
 bluebird.promisifyAll(redis.Multi.prototype);
+
+const firebase = require('firebase');
+
+
+var config = {
+    apiKey: "AIzaSyADpCYy5NTH_XfmPZ3aLBoy3kEVsdMqk-8",
+    authDomain: "829141757660.firebaseapp.com",
+    // For databases not in the us-central1 location, databaseURL will be of the
+    // form https://[databaseName].[region].firebasedatabase.app.
+    // For example, https://your-database-123.europe-west1.firebasedatabase.app
+    databaseURL: "https://databaseName.firebaseio.com",
+    storageBucket: "stock-web-19682-default-rtdb.appspot.com"
+  };
+  firebase.initializeApp(config);
+
+  // Get a reference to the database service
+  var database = firebase.database();
+
+
+
+
+
+
 
 async function getUser(userId){
     let user = await client.getAsync(userId);//id come from firebase
