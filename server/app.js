@@ -5,6 +5,8 @@ const configRoutes = require('./routes');
 
 const fs = require('fs');
 
+global.__basedir = __dirname;
+/*
 const firebase = require('./utils/firebase');
 global.__basedir = __dirname;
 
@@ -12,12 +14,12 @@ global.__basedir = __dirname;
 fs.exists('./images', (e) => {
 	if (!e) fs.mkdirSync('./images');
 });
-
+*/
 app.use('/public', static);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-const port = 3000;
+const port = 3006;
 
 configRoutes(app);
 

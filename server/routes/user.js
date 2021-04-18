@@ -3,6 +3,10 @@ const router = express.Router()
 const data = require('../data')
 const userData = data.user
 
+router.get('/', async(req, res) => {
+    res.json({Message: "This is the default page for api user"})
+})
+
 router.get('/:id', async(req, res) => {
     const userId = req.params.id;
     try{
@@ -13,20 +17,24 @@ router.get('/:id', async(req, res) => {
         user = await userData.getUser(userId);
         res.json(user);
     } catch(e){
+        console.log(e)
         res.status(404).json({"Error with in get /:id": e})
     }
 })
 
 router.post('/:id', async(req, res) => {
     const userId = req.params.id;
+    const name = req.body.name;
+    const img = req.body.img;
     try{
         if(typeof(userId) !== "string" || userId.length !== 20) {
             res.json({ERROR: "ID is not valid"});
             return;
         }
-        user = await userData.createUser(userId);
+        user = await userData.createUser(userId, name, img);
         res.json(user);
     } catch(e){
+        console.log(e)
         res.status(404).json({"Error with in post /:id": e})
     }
 })
@@ -38,11 +46,12 @@ router.patch('/:id', async(req, res) => {
             res.json({ERROR: "ID is not valid"});
             return;
         }
-        if(!req.body || !req.body.stockList) {
-            res.json({ERROR: "req.body or req.body.stockList is missing in patch function"});
+        if(!req.body || !req.body) {
+            res.json({ERROR: "req.body or req.body is missing in patch function"});
             return;
         }
-        user = await userData.getUser(userId);
+        /*
+        let user = await userData.getUser(userId);
 
         let oldData = user.stockList;
         let newData = req.body.stockList;
@@ -53,12 +62,13 @@ router.patch('/:id', async(req, res) => {
         let newUser = {
             stockList: (req.body.stockList && (JSON.stringify(a) !== JSON.stringify(b)) ? newData : oldData)
         }
-        let validUser = await userData.updateUser(userId, newUser);
+
+        */
+        let validUser = await userData.patchUser(userId, req.body);
+        res.json(validUser);
         return validUser;
-
-
-        res.json(user);
     } catch(e){
+        console.log(e)
         res.status(404).json({"Error with in patch /:id": e})
     }
 })
