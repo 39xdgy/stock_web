@@ -1,5 +1,5 @@
 import React, {useContext} from 'react';
-import { Link } from 'react-router-dom';
+import { Link,Route } from 'react-router-dom';
 import { AuthContext } from '../firebase/Auth';
 import '../App.css';
 
@@ -67,22 +67,22 @@ const Navigation = () => {
                         <Menu.Item key='1' className='logo'>
                             <Link to='/'>STOCKWEB</Link>
                         </Menu.Item>
-                        <Menu.Item key='1'>
+                        <Menu.Item key='2'>
                             <Link to='/'>Home</Link>
                         </Menu.Item>
-                        <Menu.Item key='2'>
+                        <Menu.Item key='3'>
                             <Link to='/aboutUs'>About Us</Link>
                         </Menu.Item>
-                        <Menu.Item key='3'>
+                        <Menu.Item key='4'>
                             <Link to='/sigin'>Sign-In</Link>
                         </Menu.Item>
-                        <Menu.Item key='4'>
+                        <Menu.Item key='5'>
                             <Link to='/charts'>Charts</Link>
                         </Menu.Item>
-                        <Menu.Item key='5'>
+                        <Menu.Item key='6'>
                             <Link to='/models'>Models</Link>
                         </Menu.Item>
-                        <Menu.Item key='6'>
+                        <Menu.Item key='7'>
                             <Link to='/News'>News</Link>
                         </Menu.Item>
                         {/* <Menu.Item key='7'>
