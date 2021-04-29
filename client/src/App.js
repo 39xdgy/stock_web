@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Route } from 'react-router-dom';
 import Navigation from './components/Navigation';
 import Home from './components/Home';
 import Charts from './components/Charts'
+import News from './components/News'
 import { AuthProvider } from './firebase/Auth';
 import { Layout } from 'antd';
 
@@ -21,6 +22,7 @@ function App() {
               <div className='App-body'>
                 <Route exact path='/' component={Home}/>
                 <Route exact path='/charts' component={Charts}/>
+                <Route exact path='/news' component={News}/>
               </div>
             </Content>
           </Layout>

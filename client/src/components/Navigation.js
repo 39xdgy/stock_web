@@ -83,7 +83,7 @@ const Navigation = () => {
                             <Link to='/models'>Models</Link>
                         </Menu.Item>
                         <Menu.Item key='7'>
-                            <Link to='/News'>News</Link>
+                            <Link to='/news'>News</Link>
                         </Menu.Item>
                         {/* <Menu.Item key='7'>
                             <Link to='/logout'>Logout</Link>
