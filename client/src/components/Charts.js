@@ -12,8 +12,8 @@ const userTest = {id:'idabc', stockList:['AAPL','IBM','BA','GOOGL','FB','NVDA']}
 let testMode = true;
 
 const style = {
-    height: 40,
-    width: 40,
+    height: 30,
+    width: 30,
     lineHeight: '40px',
     borderRadius: 4,
     backgroundColor: '#00254d',
@@ -129,8 +129,6 @@ useEffect(()=>{
                             if(today.getUTCDate() === currDate.getUTCDate()){
                                 //only show today's data
                                 //To do: add 1week,1month 6month,1year,5year
-                                let hour = currDate.getUTCHours()
-                                let min = curr
                                 let xyObject = {
                                     date:currDate.toLocaleTimeString(),
                                     low:curr.low,
