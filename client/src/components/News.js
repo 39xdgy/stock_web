@@ -13,6 +13,7 @@ let testMode = true;
 
 const News=(props)=>{
 const[news,setNews] = useState(undefined);
+const[loading, setLoading]=useState(true);
 const[userNews,setUserNews] = useState(undefined);
 const [user,setUser] = useState(undefined);
 const baseUrl = "https://newsapi.org/v2/top-headlines?"
@@ -42,13 +43,13 @@ async function getCompanyName(ticker){
 }
 //shuffle an array
 function shuffle(arr) {
-    for (i = 0; i < arr.length; i++) {
-        x = Math.floor(Math.random() * arr.length);
-        y = Math.floor(Math.random() * arr.length);
+    for (let i = 0; i < arr.length; i++) {
+        let x = Math.floor(Math.random() * arr.length);
+       let  y = Math.floor(Math.random() * arr.length);
         if (x === y) { //for dont change arr[index] with self !!!
             continue;
         }
-        temp0 = arr[x];
+        let temp0 = arr[x];
         arr[x] = arr[y];
         arr[y] = temp0;
     }
@@ -86,7 +87,9 @@ function shuffle(arr) {
         console.log(error)
     }
   }
+useEffect(()=>{
 
+},[])
   //fetch news data as an random array----------------------
   async function fetchNewsList(){
     let currUser = Object.assign(userTest);
@@ -113,9 +116,9 @@ function shuffle(arr) {
          }
         } 
      }
-   //  let result = shuffle(resultList);
+     let result = shuffle(resultList);
    
-     return resultList;
+     return result;
      
     }catch(error){
         console.log(error)
@@ -128,10 +131,20 @@ useEffect(async ()=>{
     console.log("logged in user useEffect fired.\n");
     setUserFunc();
     if(user){
-    let newsData = await fetchNewsList();
-    setUserNews(newsData);
-    console.log("user News:\n")
-    console.log(newsData);
+        try {
+            let newsData = await fetchNewsList(); 
+            if(newsData){
+                setUserNews(newsData);
+                setLoading(false);
+                console.log("user News:\n")
+                console.log(newsData);
+            }
+        } catch (error) {
+            
+        }
+   
+    
+    
     }
     
     
@@ -169,7 +182,15 @@ if(userNews){
         {newsBody}
         </div>
     )
-}else{
+}else if(loading){
+    return (    
+        <Alert
+         message="Loading"
+         description="Please wait a second..."
+         type="info"
+       />)
+}
+else{
     return(
         <Alert
         message="404 Error"
