@@ -38,7 +38,7 @@ function Charts(props){
     const baseUrl1 = `https://www.alphavantage.co/query?`
     const baseUrl2 = 'http://api.marketstack.com/v1/'
     const func2="eod?"
-    const func3="intraday/2021-04-28?"
+    const func3="intraday?"
     const key2='access_key=6e1bec4cf9a30953ba06c4b2c17d1fb7&'
 
   
@@ -63,7 +63,7 @@ function Charts(props){
                    // console.log("data for chart:\n")
                   //  console.log(data)
                     if(data.data){
-                        console.log(data.data);
+                     //   console.log(data.data);
                         let symbolResult = []
                         for(let i =data.data.length -1;i>=0;i--){
                             let curr = data.data[i]
@@ -104,6 +104,8 @@ useEffect(()=>{
     setUserFunc();
     try {
         //logged in user useEffect fired
+        const today = new Date().toISOString().substring(0,10);
+        console.log(today);
         let currentUser = Object.assign(userTest);
         async function fetchData(){
             let userResultList=[]
@@ -113,18 +115,18 @@ useEffect(()=>{
                 for(let i = 0;i<currentUser.stockList.length;i++){
                     let syb = currentUser.stockList[i];
                     //for logged in user, get intraday data.
-                    let url = baseUrl2+func3+key2+`symbols=${syb}&interval=5min`
+                    let url = baseUrl2+func3+key2+`symbols=${syb}&interval=15min`
                    // console.log(url);
                     const single = await axios.get(url);
                     let {data} = single
-                    console.log(data)
+                   // console.log(data)
                     if(data.data){
                         let symbolResult = []
                         for(let i =data.data.length -1;i>=0;i--){//reverse time
                             let curr = data.data[i]
                            // console.log(curr)
                             const today = new Date();
-                            console.log(today.getUTCDate());
+                           // console.log(today.getUTCDate());
                             const currDate = new Date(data.data[i].date);
                             if(today.getUTCDate() === currDate.getUTCDate()){
                                 //only show today's data

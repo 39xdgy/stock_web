@@ -161,7 +161,7 @@ const buildSlide=(news)=>{
         cover={<img alt="news Image" src={news.urlToImage} />}
         extra={<a href={news.url}>More</a>}
       >
-        <Meta title={news.title?news.title:" "} description={news.description.substring(0,100)+"...more"} />
+        <Meta title={news.title?news.title:" "} author={news.author?news.author:" "} description={news.description?news.description.substring(0,100)+"...":"N/A"} />
       </Card>
     )
 
