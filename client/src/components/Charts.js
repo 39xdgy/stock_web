@@ -4,8 +4,8 @@ import axios from 'axios'
 import 'antd/dist/antd.css';
 //import uuid from 'uuid'
 import { Layout,Row,Col, Select,Radio,Alert,Typography,BackTop} from 'antd';
-const { Option } = Select;
 import { BarChart,Bar, Line, Area,ComposedChart,LineChart,XAxis, YAxis, CartesianGrid, Tooltip, Legend} from 'recharts';
+const { Option } = Select;
 const { Title } = Typography;
 const { Header, Sider, Content } = Layout;
 const userTest = {id:'idabc', stockList:['AAPL','IBM','BA','GOOGL','FB','NVDA']}
