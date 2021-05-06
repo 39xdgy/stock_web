@@ -3,7 +3,7 @@ import {AuthContext} from '../firebase/Auth';
 import axios from 'axios'
 import 'antd/dist/antd.css';
 import { v4 as uuidv4 } from 'uuid';
-import { Layout,Row,Col, Select,Radio,Alert,Typography,Card} from 'antd';
+import { Layout,Row,Col, Select,Radio,Alert,Typography,Card,Tag} from 'antd';
 const { Option } = Select;
 const { Meta } = Card;
 const { Title } = Typography;
@@ -14,6 +14,7 @@ let testMode = true;
 const News=(props)=>{
 const[news,setNews] = useState(undefined);
 const[loading, setLoading]=useState(true);
+const [error,setError]=useState(false);
 const[userNews,setUserNews] = useState(undefined);
 const [user,setUser] = useState(undefined);
 const baseUrl = "https://newsapi.org/v2/top-headlines?"
@@ -103,25 +104,32 @@ useEffect(()=>{
         let newName = companyName.split(' ')
        // console.log(newName);
         let url = baseUrl+`q=${newName[0]}&${key}`
-        console.log(url)
-        const news = await axios.get(url);
-        if(news.data&&news.data.articles){
-           // console.log(news.data.articles)
-            if(news.data.articles.length>0){
-              for(let j=0;j<news.data.articles.length;j++){
-                  let item =Object.assign(news.data.articles[j]) 
-                  item.key = uuidv4();
-                  resultList.push(item);
-              }
-         }
-        } 
+       // console.log(url)
+        try {
+            const news = await axios.get(url);
+            if(news.data&&news.data.articles){
+               // console.log(news.data.articles)
+                if(news.data.articles.length>0){
+                  for(let j=0;j<news.data.articles.length;j++){
+                      let item =Object.assign(news.data.articles[j]) 
+                      item.key = uuidv4();
+                      resultList.push(item);
+                  }
+             }
+            } 
+        } catch (error) {
+            console.log(error);
+            continue;
+        }
+
      }
      let result = shuffle(resultList);
    
      return result;
      
     }catch(error){
-        console.log(error)
+       // console.log(error)
+        setError(true);
     }
   }
 
@@ -140,7 +148,8 @@ useEffect(async ()=>{
                 console.log(newsData);
             }
         } catch (error) {
-            
+           // console.log(error);
+            setError(true);
         }
    
     
@@ -161,7 +170,10 @@ const buildSlide=(news)=>{
         cover={<img alt="news Image" src={news.urlToImage} />}
         extra={<a href={news.url}>More</a>}
       >
-        <Meta title={news.title?news.title:" "} author={news.author?news.author:" "} description={news.description?news.description.substring(0,100)+"...":"N/A"} />
+       
+          <Tag color="blue">{news.source.id}</Tag>
+          <br/>
+    <Meta title={news.title?news.title:" "} author={news.author?news.author:" "} description={news.description?news.description.substring(0,100)+"...":"N/A"}  />
       </Card>
     )
 
