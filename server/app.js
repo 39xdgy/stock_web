@@ -19,7 +19,7 @@ app.use('/public', static);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-const port = 3006;
+const port = process.env.PORT || 3006;
 
 configRoutes(app);
 
