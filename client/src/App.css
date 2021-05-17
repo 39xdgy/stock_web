@@ -560,4 +560,9 @@ button:disabled {
 		display: flex;
 		flex-direction: column;
 	}
+
+}
+.center{
+	margin-left:auto;
+	margin-left:auto
 }
