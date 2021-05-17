@@ -3,6 +3,8 @@ const app = express();
 const static = express.static(__dirname + '/public');
 const configRoutes = require('./routes');
 
+require('dotenv').config()
+
 const fs = require('fs');
 
 global.__basedir = __dirname;
@@ -19,7 +21,7 @@ app.use('/public', static);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-const port = 3006;
+const port = process.env.PORT || 3006;
 
 configRoutes(app);
 
