@@ -3,18 +3,28 @@ import {AuthContext} from '../firebase/Auth';
 import axios from 'axios'
 import 'antd/dist/antd.css';
 import { v4 as uuidv4 } from 'uuid';
-import { Layout,Row,Col, Select,Radio,Alert,Typography,Card,Tag,Image, Comment} from 'antd';
+import { Row,Col, Alert,Typography,Card,Tag,Image, Comment,BackTop} from 'antd';
 import imageMagick from 'imagemagick';
 import fs from 'fs'
 import '../App.css';
-const { Option } = Select;
-const { Meta } = Card;
-const { Title } = Typography;
-const { Header, Sider, Content } = Layout;
+
+
+const style = {
+    height: 30,
+    width: 30,
+    lineHeight: '40px',
+    borderRadius: 4,
+    backgroundColor: '#00254d',
+    color: '#fff',
+    textAlign: 'center',
+    fontSize: 14,
+};
+
 const userTest = {id:'idabc', stockList:['AAPL','IBM','BA','GOOGL','FB','NVDA']}
 let testMode = true;
 
-const News=(props)=>{
+const News=()=>{
+ const content = useContext(AuthContext);
 const[news,setNews] = useState(undefined);
 const[loading, setLoading]=useState(true);
 const [error,setError]=useState(false);
@@ -117,23 +127,21 @@ function imageProcess(id,path){
 
     })
 }
+  
 
-useEffect(()=>{
-
-},[])
-  //fetch news data as an random array----------------------
-  async function fetchNewsList(){
-    let currUser = Object.assign(userTest);
+useEffect(async ()=>{
+    //fetch public news-------
+  async function fetchPulicNews(){
+  
     let resultList = []
     try{
      console.log('news useEffect fired.\n');
-     let symbolList = currUser.stockList;
+     let symbolList = ['stock','NASDAQ','Finacial'];
      
      for(let i = 0;i<symbolList.length;i++){
-        let companyName = await getCompanyName(symbolList[i]);
-        let newName = companyName.split(' ')
+       
        // console.log(newName);
-        let url = baseUrl+`q=${newName[0]}&${key}`
+        let url = baseUrl+`q=${symbolList[i]}&${key}`
        // console.log(url)
         try {
             const news = await axios.get(url);
@@ -143,13 +151,11 @@ useEffect(()=>{
                   for(let j=0;j<news.data.articles.length;j++){
                       let currNews = news.data.articles[j];
                       let key = uuidv4();
-                      console.log('currNews',currNews);
+                    //  console.log('publicNews:',currNews);
                      // imageProcess(key,currNews.urlToImage);
                     // to do :using imageMagick to process
                     let newsDate = new Date(currNews.publishedAt).toLocaleString()
-                    console.log(newsDate);
-                       
-
+                  //  console.log(newsDate);
                        let item = {
                            key:key,
                            title:currNews.title,
@@ -169,15 +175,74 @@ useEffect(()=>{
              }
             } 
         } catch (error) {
-            console.log(error);
+           // console.log(error);
             continue;
         }
-
      }
      let result = shuffle(resultList);
-   
      return result;
-     
+    }catch(error){
+       // console.log(error)
+        setError(true);
+    }
+  }
+
+  //fetch news data as an random array----------------------
+  async function fetchNewsList(stockList){
+    //let currUser = Object.assign(userTest);
+    let resultList = []
+    try{
+     console.log('news useEffect fired.\n');
+     let symbolList = stockList;
+     if(symbolList.length>0){
+        for(let i = 0;i<symbolList.length;i++){
+            let companyName = await getCompanyName(symbolList[i]);
+            let newName = companyName.split(' ')
+           // console.log(newName);
+            let url = baseUrl+`q=${newName[0]}&${key}`
+           // console.log(url)
+            try {
+                const news = await axios.get(url);
+                if(news.data&&news.data.articles){
+                   // console.log(news.data.articles)
+                    if(news.data.articles.length>0){
+                      for(let j=0;j<news.data.articles.length;j++){
+                          let currNews = news.data.articles[j];
+                          let key = uuidv4();
+                         // console.log('public News',currNews);
+                         // imageProcess(key,currNews.urlToImage);
+                        // to do :using imageMagick to process
+                        let newsDate = new Date(currNews.publishedAt).toLocaleString()
+                        //console.log(newsDate);
+                           let item = {
+                               key:key,
+                               title:currNews.title,
+                               url: currNews.url,
+                             //  image: `../img/${key}-resized.jpg`,
+                               image: currNews.urlToImage,
+                               content:currNews.content,
+                               description:currNews.description,
+                               source:currNews.source.name,
+                               author:currNews.author,
+                               date: newsDate
+                               
+                           }
+                          
+                          resultList.push(item);
+                      }
+                 }
+                } 
+            } catch (error) {
+               // console.log(error);
+                continue;
+            }
+    
+         }
+         let result = shuffle(resultList);
+   
+        return result;
+     }
+
     }catch(error){
        // console.log(error)
         setError(true);
@@ -185,13 +250,20 @@ useEffect(()=>{
   }
 
 
-
-useEffect(async ()=>{
     console.log("logged in user useEffect fired.\n");
     setUserFunc();
-    if(user){
+    try {
+        let publicData = await fetchPulicNews(); 
+        setNews(publicData);
+        console.log("public news",publicData);
+    } catch (error) {
+        setError(true);
+    }
+    if(content){
+        const {currentUser} = content
+    if(!!currentUser){
         try {
-            let newsData = await fetchNewsList(); 
+            let newsData = await fetchNewsList(currentUser.stockList); 
             if(newsData){
                 setUserNews(newsData);
                 setLoading(false);
@@ -202,27 +274,26 @@ useEffect(async ()=>{
            // console.log(error);
             setError(true);
         }
-   
+
+    } 
+}
     
-    
-    }
-    
-    
-},[user])
+},[])
 
 // build news slide
 const buildSlide=(news)=>{
 
     return(
-      <div className = "center" >
+        <Col key={news.key} className="gutter-row" xs={24} sm={24} md={12} lg={8} >
+      
         <Card key={news.key}
-        
         hoverable
+        style={{padding: '8px 0'}}
         title={news.title?news.title:" "}
-        style={{ width: 700}}
-        extra={<a href={news.url}>More</a>}
+        // style={{ width: 700}}
+        extra={<a href={news.url} aria-label="more content link">More</a>}
       >
-          <Image  className = "center" src={news.image} width={500} alt="News Image" />
+          <Image  className = "center" src={news.image}  alt="News Image" />
           <p>  
           <Tag color="blue">{news.source}</Tag>
           </p>
@@ -233,8 +304,8 @@ const buildSlide=(news)=>{
           content={news.description?news.description.substring(0,200):""}
           />
       </Card>
-        <br/>
-      </div>
+        
+      </Col>
      
       
     )
@@ -243,26 +314,47 @@ const buildSlide=(news)=>{
 }
 
 let newsBody = null
+let publicNewsBody = null
+if(news){
+    publicNewsBody=news.map((singleNews)=>{
+    return buildSlide(singleNews);
+})
+}
+
 if(userNews){
-    console.log("user News:\n");
-    console.log(userNews);
    newsBody=userNews.map((news)=>{
       return buildSlide(news);
    })
 
     return(
         <div >
-        <Typography><Title level={3}>News</Title></Typography>
-        <div>
+       
+        <Typography><p className="cardTitle">News</p></Typography>
+        <Row gutter={16}>
         {newsBody}
-        </div>
+        </Row>
         </div>
     )
-}else if(loading){
+}else if(news){
+
+    return(
+        <div >
+       
+       <Typography><p className="cardTitle">News</p></Typography>
+        <Row gutter={16}>
+        {publicNewsBody}
+        </Row>
+        <BackTop>
+            <div style={style}>UP</div>
+        </BackTop>
+        </div>
+    )
+}
+else if(loading){
     return (    
         <Alert
          message="Loading"
-         description="Please wait a second..."
+         description="Please wait a few seconds..."
          type="info"
        />)
 }
