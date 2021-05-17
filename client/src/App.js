@@ -28,7 +28,7 @@ function App() {
           <Layout className='site-layout'>
             <Content className="main-content" >
               <div className='App-body'>
-                <PrivateRoute exact path='/' component={Home}/>
+                <Route exact path='/' component={Home}/>
                 <Route exact path='/charts' component={Charts}/>
                 <Route exact path='/news' component={News}/>
                 <Route exact path='/sigin' component = {SignIn}/>
