@@ -3,6 +3,8 @@ const app = express();
 const static = express.static(__dirname + '/public');
 const configRoutes = require('./routes');
 
+require('dotenv').config()
+
 const fs = require('fs');
 
 global.__basedir = __dirname;

@@ -24,8 +24,8 @@ router.get('/:id', async(req, res) => {
 
 router.post('/:id', async(req, res) => {
     const userId = req.params.id;
-    const name = req.body.name;
-    const img = req.body.img;
+    const name = req.body.userName;
+    const img = req.body.profileImg;
     try{
         if(typeof(userId) !== "string" || userId.length !== 20) {
             res.json({ERROR: "ID is not valid"});
