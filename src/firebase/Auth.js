@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import firebaseApp from './Firebase';
 
+
 export const AuthContext = React.createContext();
 
 export const AuthProvider = ({ children }) => {
@@ -12,15 +13,15 @@ export const AuthProvider = ({ children }) => {
             setCurrentUser(user);
             setLoadingUser(false);
         });
-    },[]);
+    }, []);
 
     if (loadingUser) {
-        return <div>Loading...</div>
+        return <div>Loading....</div>;
     }
 
     return (
-        <AuthContext.Provider value={{currentUser}}>
+        <AuthContext.Provider value={{ currentUser }}>
             {children}
         </AuthContext.Provider>
-    )
+    );
 };

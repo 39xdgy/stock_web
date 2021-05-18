@@ -7,11 +7,18 @@ import Charts from './components/Charts'
 import News from './components/News'
 import { AuthProvider } from './firebase/Auth';
 import { Layout } from 'antd';
+import SignIn from './components/SignIn';
+import Loading from './components/Loading';
+import SignUp from './components/SignUp'
+import Account from './components/Account'
+import PrivateRoute from './components/PrivateRoute'
+import Profile from './components/Profile';
 
 const {Content}=Layout;
 
 function App() {
   return (
+    <AuthProvider>
       <Router>
         <div className='App'>
           <header>
@@ -23,11 +30,18 @@ function App() {
                 <Route exact path='/' component={Home}/>
                 <Route exact path='/charts' component={Charts}/>
                 <Route exact path='/news' component={News}/>
+                <Route exact path='/sigin' component = {SignIn}/>
+                <Route exact path='/signup' component = {SignUp}/>
+                <Route exact path='/loading' component = {Loading}/>
+                <Route exact path='/siginup' component = {SignUp}/>
+                <PrivateRoute path="/account" component={Account} />
+                <PrivateRoute path="/profile" component={Profile} />
               </div>
             </Content>
           </Layout>
         </div>
       </Router>
+      </AuthProvider>
   );
 
 }
