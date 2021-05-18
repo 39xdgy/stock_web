@@ -9,11 +9,10 @@ import { AuthProvider } from './firebase/Auth';
 import { Layout } from 'antd';
 import SignIn from './components/SignIn';
 import Loading from './components/Loading';
-import ChangePassword from './components/ChangePasswaord';
 import SignUp from './components/SignUp'
 import Account from './components/Account'
 import PrivateRoute from './components/PrivateRoute'
-
+import Profile from './components/Profile';
 
 const {Content}=Layout;
 
@@ -32,11 +31,11 @@ function App() {
                 <Route exact path='/charts' component={Charts}/>
                 <Route exact path='/news' component={News}/>
                 <Route exact path='/sigin' component = {SignIn}/>
+                <Route exact path='/signup' component = {SignUp}/>
                 <Route exact path='/loading' component = {Loading}/>
                 <Route exact path='/siginup' component = {SignUp}/>
-                <Route exact path='/changepassword' component = {ChangePassword}/>
                 <PrivateRoute path="/account" component={Account} />
-                
+                <PrivateRoute path="/profile" component={Profile} />
               </div>
             </Content>
           </Layout>
