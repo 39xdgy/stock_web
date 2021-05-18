@@ -9,7 +9,7 @@ const PrivateRoute = ({ component: RouteComponent, ...rest }) => {
     <Route
       {...rest}
       render={(routeProps) =>
-        !!currentUser ? (
+        !!currentUser.currentUser ? (
           <RouteComponent {...routeProps} />
         ) : (
           <Redirect to={'sigin'} />

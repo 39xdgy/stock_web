@@ -32,6 +32,9 @@ const Navigation = () => {
                         <Menu.Item key='2'>
                             <Link to='/aboutUs'>About Us</Link>
                         </Menu.Item>
+                        <Menu.Item key='8'>
+                            <Link to='/account'>Account information</Link>
+                        </Menu.Item>
                         <Menu.Item key='3'>
                             <Link to='/profile'>Profile</Link>
                         </Menu.Item>
@@ -45,9 +48,7 @@ const Navigation = () => {
                             <Link to='/News'>News</Link>
                         </Menu.Item>
                         <Menu.Item key='7'>
-                        <Link to='/sigin'>
                             <SignOutButton/>
-                            </Link>
                         </Menu.Item>
                     </Menu>
                 </Sider>
@@ -100,7 +101,12 @@ const Navigation = () => {
         );
     };
 
-    return <div>{currentUser ? NavigationAuth() : NavigationUnAuth()}</div>;
+    if(currentUser.currentUser){
+        return (<div><NavigationAuth/></div>)
+    }
+    else{
+        return (<div><NavigationUnAuth/></div>)
+    }
 };
 
 export default Navigation;
