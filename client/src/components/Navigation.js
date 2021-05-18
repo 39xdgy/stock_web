@@ -9,7 +9,7 @@ import { Layout, Menu } from 'antd';
 const { Sider } = Layout;
 
 const Navigation = () => {
-    const {currentUser}  = useContext(AuthContext);
+    const currentUser  = useContext(AuthContext);
 
     const NavigationAuth = () => {
         return(
