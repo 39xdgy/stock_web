@@ -41,7 +41,7 @@ function Charts(props) {
     const key = "AWWY4QSC0AS018VB"
     const func = 'TIME_SERIES_INTRADAY'
     const baseUrl1 = `https://www.alphavantage.co/query?`
-    const baseUrl2 = 'http://api.marketstack.com/v1/'
+    const baseUrl2 = 'https://api.marketstack.com/v1/'
     const func2 = "eod?"
     const func3 = "intraday?"
     const key2 = 'access_key=bf8eddbcab2ddc7e3df6ad363bb3ac55&'
