@@ -26,7 +26,7 @@ let testMode = false;
 
 const News = (props) => {
     const content = useContext(AuthContext);
-   
+
     const [news, setNews] = useState(undefined);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(false);
@@ -36,7 +36,7 @@ const News = (props) => {
     const [searchTerm, setSearchTerm] = useState('');
     const baseUrl = "https://newsapi.org/v2/top-headlines?"
     const key = "apiKey=1e4211b8b7a3444cbbb2e736508f489a"
-
+    const serverUrl = "https://cors-anywhere.herokuapp.com/http://ownstockmodel.herokuapp.com/api/user/"
 
 
     //set delay because of API limitition...
@@ -80,14 +80,8 @@ const News = (props) => {
     }
 
 
-    useEffect(async () => {
-        async function getUserInfo(id){
-            if(!id || id.trim() === '') throw 'You need to provide an id'
-          const serverUrl = "http://ownstockmodel.herokuapp.com/api/user"
-            const thisUser = await axios.get(`${serverUrl}/${id}`);
-            console.log(thisUser);
-            return thisUser;
-        }
+    useEffect(() => {
+
         //fetch public news-------
         async function fetchPulicNews() {
 
@@ -168,7 +162,7 @@ const News = (props) => {
                                     for (let j = 0; j < news.data.articles.length; j++) {
                                         let currNews = news.data.articles[j];
                                         let key = uuidv4();
-            
+
                                         let newsDate = new Date(currNews.publishedAt).toLocaleString()
                                         //console.log(newsDate);
                                         let item = {
@@ -208,29 +202,32 @@ const News = (props) => {
         }
         fetchPulicNews();
 
-        if (content) {
-            const { currentUser } = content
-        
-            console.log('news current User',currentUser);
-            if (currentUser) {
-                let userId = currentUser.uid 
-                console.log('user id', userId)
-                
-                try {
-                    const user = await getUserInfo(userId);
-                    if(user){
-                        fetchNewsList(user.stockList);
-                    }else{
-                        throw 'user not found'
-                    }
-                    
-                } catch (error) {
-                    // console.log(error);
-                    throw ' no user info'
-                }
+        async function getUserData() {
+            if (content) {
+                const { currentUser } = content
 
+                console.log('news current User', currentUser);
+                if (currentUser) {
+                    let userId = currentUser.uid
+                    console.log('user id', userId)
+
+                    try {
+                        const user = await axios.get(serverUrl + userId);
+                        if (user) {
+                            fetchNewsList(user.stockList);
+                        } else {
+                            throw 'user not found'
+                        }
+
+                    } catch (error) {
+                        console.log(error);
+
+                    }
+
+                }
             }
         }
+        getUserData();
 
     }, [])
     let searchDataDiv = null;
@@ -324,76 +321,76 @@ const News = (props) => {
     }
 
     let newsBody = null
-//console.log(news);
-const sample =[
-    {
-        author: "Tina Zeinlinger, Jan Guldner",
-        content: "Trading-Apps sind auf dem Vormarsch und mit ihnen der Trend zum immer schnelleren Handeln und Spekulieren. Börsencoaches und Finanzgurus im Internet nutzen das aus. In ihren Online-Seminaren und Vide… [+798 chars]",
-        date: "5/18/2021, 8:53:30 AM",
-        description: "Tina hat sich als Daytraderin an der Börse versucht. Was sie von Börsentrainern gelernt hat, auf welche Marketingtricks sie reingefallen ist und was CFDs mit Brokkoli zu tun haben.",
-        image: "https://www.wiwo.de/images/wiwo_money_mates_640x360px_v2/27180132/2-format11240.jpg",
-        key: "2d6f7bba-6b8e-4cbe-85a5-18ebd2a50d59",
-        source: "Wirtschafts Woche",
-        title: "Daytrading lernen: Funktioniert Geld verdienen mit Trading Apps?",
-        url: "https://www.wiwo.de/podcast/money-mates/podcast-money-mates-daytrading-lernen-was-taugen-boersen-seminare-und-onlinekurse/27180130.html"
-    },
-    {
-        author: "Herbert Lash",
-        content: "NEW YORK/LONDON (Reuters) - Global stock markets fell on Thursday as a continued rise in the number of coronavirus cases dashed hopes of a swift recovery from the pandemic-induced economic slump and … [+4758 chars]",
-        date: "6/18/2020, 3:36:18 PM",
-        description: "Global stock markets fell on Thursday as a continued rise in the number of coronavirus cases dashed hopes of a swift recovery from the pandemic-induced economic slump and drove demand for safe-haven currencies such as the dollar and Japanese yen.",
-        image: "https://s2.reutersmedia.net/resources/r/?m=02&d=20200618&t=2&i=1522723273&w=1200&r=LYNXMPEG5H1UF",
-        key: "a90d5656-99c5-4dd0-8b59-a07cc754c081",
-        source: "Reuters",
-        title: "World stock markets slip on second wave virus fears, safe-havens rise",
-        url: "http://feeds.reuters.com/~r/reuters/topNews/~3/XK0b5K8AM14/world-stock-markets-slip-on-second-wave-virus-fears-safe-havens-rise-idUSKBN23P001" 
-    },
-    {
-        author: "FourFourTwo Staff",
-        content: "Arsenal manager Mikel Arteta has pinpointed five positions that the club need to strengthen this summer, according to reports.\r\nThe Gunners ran out 1-0 winners against Chelsea on Wednesday thanks to … [+2140 chars]",
-        date: "5/13/2021, 6:23:01 AM",
-        description: "The Spaniard is keen to improve his squad when the transfer market reopens",
-        image: "https://cdn.mos.cms.futurecdn.net/cGSbzSU4G7BjktnaEiwBc5-1200-80.jpg",
-        key: "cca9120d-4a70-46c3-ba1a-94150a80d614",
-        source: "FourFourTwo",
-        title: "Arsenal transfer news: Mikel Arteta wants to strengthen five positions this summer",
-        url: "https://www.fourfourtwo.com/news/arsenal-transfer-news-mikel-arteta-wants-to-strengthen-five-positions-this-summer"
-    },
-    {
-        author: "FourFourTwo Staff",
-        content: "Liverpool manager Jurgen Klopp has ruled out marquee signings in this summers transfer market.\r\nThe Reds have endured a disappointing season and might need to win all four of their remaining games to… [+2037 chars]",
-        date: "5/13/2021, 5:00:01 AM",
-        description: "The Reds boss does not expect to entice a world-class superstar to Anfield this summer",
-        image: "https://cdn.mos.cms.futurecdn.net/QNerreSfu6u8gfT4DRTHsc-1200-80.jpg",
-        key: "1aacad58-ade2-40e9-9803-21d39b9969da",
-        source: "FourFourTwo",
-        title: "Liverpool transfer news: Jurgen Klopp rules out marquee signings in ‘strange’ market",
-        url: "https://www.fourfourtwo.com/news/liverpool-transfer-news-jurgen-klopp-rules-out-marquee-signings-in-strange-market"  ,
-    },
-    {
-        author: "Ryan Gilliam",
-        content: "BioWare clearly put some love into the Mass Effect Legendary edition, with a host of small changes included for the biggest of Mass Effect fans. Players discovered one such change over the weekend, w… [+2923 chars]",
-        date: "5/17/2021, 11:35:09 AM",
-        description: "Tali’Zorah, one of Mass Effect’s most important crewmates, had a rough ending in Mass Effect 3. After players romanced her, they got a stock image of a woman that was supposed to be her on their bed. But with the Mass Effect Legendary Edition, BioWare finally…",
-        image: "https://cdn.vox-cdn.com/thumbor/8hnecxOkECAtHBQcVgDwmKrsBpY=/0x0:960x503/fit-in/1200x630/cdn.vox-cdn.com/assets/4689397/mass-effect-2-shepard-tali-romance_960.jpg",
-        key: "9e6b5650-8bd9-42cf-97c0-847e7fa4f948",
-        source: "Polygon",
-        title: "Mass Effect Legendary Edition finally lets players see Tali’s face",
-        url: "https://www.polygon.com/22440235/mass-effect-legendary-edition-3-tali-zorah-face-image-controversy-update"
-    },
-    {
-        author: "Ivan Mehta",
-        content: "China is one of the biggest markets in the world for Apples products. In its recent quarterly results, the company registered a whopping $17.7 billion in iPhone sales in the region.\r\nHowever, this st… [+3242 chars]",
-        date: "5/18/2021, 7:08:17 AM",
-        description: "China is one of the biggest markets in the world for Apple's products. In its recent quarterly results, the company registered a whopping $17.7 billion in iPhone sales in the region.\r\n\r\nHowever, ...",
-        image: "https://img-cdn.tnwcdn.com/image/tnw?filter_last=1&fit=1280%2C640&url=https%3A%2F%2Fcdn0.tnwcdn.com%2Fwp-content%2Fblogs.dir%2F1%2Ffiles%2F2020%2F06%2FTim-Cook-closeup.jpg&signature=dce038f2370ffd2d2f883d998d5de0a6",
-        key: "640e1646-067b-4ce3-a02a-cdeff2aa4d89",
-        source: "The Next Web",
-        title: "How Apple reportedly gave up control of iCloud for business growth in China",
-        url: "http://thenextweb.com/news/apple-icloud-security-china-encryption-nyt-report"  
-    }
-]
-let infoDiv = null;
+    //console.log(news);
+    const sample = [
+        {
+            author: "Tina Zeinlinger, Jan Guldner",
+            content: "Trading-Apps sind auf dem Vormarsch und mit ihnen der Trend zum immer schnelleren Handeln und Spekulieren. Börsencoaches und Finanzgurus im Internet nutzen das aus. In ihren Online-Seminaren und Vide… [+798 chars]",
+            date: "5/18/2021, 8:53:30 AM",
+            description: "Tina hat sich als Daytraderin an der Börse versucht. Was sie von Börsentrainern gelernt hat, auf welche Marketingtricks sie reingefallen ist und was CFDs mit Brokkoli zu tun haben.",
+            image: "https://www.wiwo.de/images/wiwo_money_mates_640x360px_v2/27180132/2-format11240.jpg",
+            key: "2d6f7bba-6b8e-4cbe-85a5-18ebd2a50d59",
+            source: "Wirtschafts Woche",
+            title: "Daytrading lernen: Funktioniert Geld verdienen mit Trading Apps?",
+            url: "https://www.wiwo.de/podcast/money-mates/podcast-money-mates-daytrading-lernen-was-taugen-boersen-seminare-und-onlinekurse/27180130.html"
+        },
+        {
+            author: "Herbert Lash",
+            content: "NEW YORK/LONDON (Reuters) - Global stock markets fell on Thursday as a continued rise in the number of coronavirus cases dashed hopes of a swift recovery from the pandemic-induced economic slump and … [+4758 chars]",
+            date: "6/18/2020, 3:36:18 PM",
+            description: "Global stock markets fell on Thursday as a continued rise in the number of coronavirus cases dashed hopes of a swift recovery from the pandemic-induced economic slump and drove demand for safe-haven currencies such as the dollar and Japanese yen.",
+            image: "https://s2.reutersmedia.net/resources/r/?m=02&d=20200618&t=2&i=1522723273&w=1200&r=LYNXMPEG5H1UF",
+            key: "a90d5656-99c5-4dd0-8b59-a07cc754c081",
+            source: "Reuters",
+            title: "World stock markets slip on second wave virus fears, safe-havens rise",
+            url: "http://feeds.reuters.com/~r/reuters/topNews/~3/XK0b5K8AM14/world-stock-markets-slip-on-second-wave-virus-fears-safe-havens-rise-idUSKBN23P001"
+        },
+        {
+            author: "FourFourTwo Staff",
+            content: "Arsenal manager Mikel Arteta has pinpointed five positions that the club need to strengthen this summer, according to reports.\r\nThe Gunners ran out 1-0 winners against Chelsea on Wednesday thanks to … [+2140 chars]",
+            date: "5/13/2021, 6:23:01 AM",
+            description: "The Spaniard is keen to improve his squad when the transfer market reopens",
+            image: "https://cdn.mos.cms.futurecdn.net/cGSbzSU4G7BjktnaEiwBc5-1200-80.jpg",
+            key: "cca9120d-4a70-46c3-ba1a-94150a80d614",
+            source: "FourFourTwo",
+            title: "Arsenal transfer news: Mikel Arteta wants to strengthen five positions this summer",
+            url: "https://www.fourfourtwo.com/news/arsenal-transfer-news-mikel-arteta-wants-to-strengthen-five-positions-this-summer"
+        },
+        {
+            author: "FourFourTwo Staff",
+            content: "Liverpool manager Jurgen Klopp has ruled out marquee signings in this summers transfer market.\r\nThe Reds have endured a disappointing season and might need to win all four of their remaining games to… [+2037 chars]",
+            date: "5/13/2021, 5:00:01 AM",
+            description: "The Reds boss does not expect to entice a world-class superstar to Anfield this summer",
+            image: "https://cdn.mos.cms.futurecdn.net/QNerreSfu6u8gfT4DRTHsc-1200-80.jpg",
+            key: "1aacad58-ade2-40e9-9803-21d39b9969da",
+            source: "FourFourTwo",
+            title: "Liverpool transfer news: Jurgen Klopp rules out marquee signings in ‘strange’ market",
+            url: "https://www.fourfourtwo.com/news/liverpool-transfer-news-jurgen-klopp-rules-out-marquee-signings-in-strange-market",
+        },
+        {
+            author: "Ryan Gilliam",
+            content: "BioWare clearly put some love into the Mass Effect Legendary edition, with a host of small changes included for the biggest of Mass Effect fans. Players discovered one such change over the weekend, w… [+2923 chars]",
+            date: "5/17/2021, 11:35:09 AM",
+            description: "Tali’Zorah, one of Mass Effect’s most important crewmates, had a rough ending in Mass Effect 3. After players romanced her, they got a stock image of a woman that was supposed to be her on their bed. But with the Mass Effect Legendary Edition, BioWare finally…",
+            image: "https://cdn.vox-cdn.com/thumbor/8hnecxOkECAtHBQcVgDwmKrsBpY=/0x0:960x503/fit-in/1200x630/cdn.vox-cdn.com/assets/4689397/mass-effect-2-shepard-tali-romance_960.jpg",
+            key: "9e6b5650-8bd9-42cf-97c0-847e7fa4f948",
+            source: "Polygon",
+            title: "Mass Effect Legendary Edition finally lets players see Tali’s face",
+            url: "https://www.polygon.com/22440235/mass-effect-legendary-edition-3-tali-zorah-face-image-controversy-update"
+        },
+        {
+            author: "Ivan Mehta",
+            content: "China is one of the biggest markets in the world for Apples products. In its recent quarterly results, the company registered a whopping $17.7 billion in iPhone sales in the region.\r\nHowever, this st… [+3242 chars]",
+            date: "5/18/2021, 7:08:17 AM",
+            description: "China is one of the biggest markets in the world for Apple's products. In its recent quarterly results, the company registered a whopping $17.7 billion in iPhone sales in the region.\r\n\r\nHowever, ...",
+            image: "https://img-cdn.tnwcdn.com/image/tnw?filter_last=1&fit=1280%2C640&url=https%3A%2F%2Fcdn0.tnwcdn.com%2Fwp-content%2Fblogs.dir%2F1%2Ffiles%2F2020%2F06%2FTim-Cook-closeup.jpg&signature=dce038f2370ffd2d2f883d998d5de0a6",
+            key: "640e1646-067b-4ce3-a02a-cdeff2aa4d89",
+            source: "The Next Web",
+            title: "How Apple reportedly gave up control of iCloud for business growth in China",
+            url: "http://thenextweb.com/news/apple-icloud-security-china-encryption-nyt-report"
+        }
+    ]
+    let infoDiv = null;
     if (searchNews) {
         newsBody = searchNews.map((singleNews) => {
             return buildSlide(singleNews);
@@ -406,8 +403,8 @@ let infoDiv = null;
         newsBody = news.map((singleNews) => {
             return buildSlide(singleNews);
         })
-    }else{
-        infoDiv =<div>These are sample news. Go to localhost:3000 for user following news.</div>
+    } else {
+        infoDiv = <div>These are sample news. Go to localhost:3000 for user following news.</div>
         newsBody = sample.map((singleNews) => {
             return buildSlide(singleNews);
         })

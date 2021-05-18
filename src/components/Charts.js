@@ -43,7 +43,7 @@ function Charts() {
     const func2 = "eod?"
     const func3 = "intraday?"
     const key2 = 'access_key=bf8eddbcab2ddc7e3df6ad363bb3ac55&'
-
+    const serverUrl = "https://cors-anywhere.herokuapp.com/http://ownstockmodel.herokuapp.com/api/user/"
 
 
 
@@ -413,41 +413,38 @@ function Charts() {
 
         fetchData();
         //get user info
-        async function getUserInfo(id) {
-            if (!id || id.trim() === '') throw 'You need to provide an id'
-            const serverUrl = "http://ownstockmodel.herokuapp.com/api/user"
-            const thisUser = await axios.get(`${serverUrl}/${id}`);
-            console.log(thisUser);
-            return thisUser;
-        }
-
-        if (content) {
-            const { currentUser } = content
-
-            if (currentUser) {
-                let userId = currentUser.uid 
-                console.log('user id', userId)
-                try {
-                    let user = await getUserInfo(userId);
-                    if(user){
-                        getIntodayData(user.stockList);
-                        getOneMonthData(user.stockList);
-                        getThreeMonthData(user.stockList);
-                        getSixMonthData(user.stockList);
-                        getOneYearData(user.stockList);
-                    }else{
-                        throw 'user not found'
+ 
+        async function getUserData(){
+            if (content) {
+                const { currentUser } = content
+    
+                if (currentUser) {
+                    let userId = currentUser.uid 
+                    console.log('user id', userId)
+                    try {
+                        let user = await axios.get(serverUrl+userId);
+                        if(user){
+                            getIntodayData(user.stockList);
+                            getOneMonthData(user.stockList);
+                            getThreeMonthData(user.stockList);
+                            getSixMonthData(user.stockList);
+                            getOneYearData(user.stockList);
+                        }else{
+                            throw 'user not found'
+                        }
+                        
+                    } catch (error) {
+                        console.log(error);
                     }
-                    
-                } catch (error) {
-                    console.log(error);
+    
                 }
-
+    
+    
+    
             }
-
-
-
         }
+        getUserData()
+
 
     }, [])
 
