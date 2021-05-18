@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 // TRADING-DAY COMPONENTS
 import Clock from "react-live-clock";
-import SearchInput from "./Search/index.js.js.js.js";
+import SearchInput from "./Search/index.js";
 
 const HeaderStyles = styled.div`
   user-select: none;
@@ -47,7 +47,7 @@ export default Header => {
           interval={1000}
         />
       </div>
-      <div id='titling'>
+      <div>
         <div className='search'>
           <SearchInput />
         </div>
