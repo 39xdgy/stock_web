@@ -22,10 +22,11 @@ const style = {
 };
 
 const userTest = { id: 'idabc', stockList: ['AAPL', 'IBM', 'BA', 'GOOGL', 'FB', 'NVDA'] }
-let testMode = true;
+let testMode = false;
 
 const News = (props) => {
     const content = useContext(AuthContext);
+   
     const [news, setNews] = useState(undefined);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(false);
@@ -36,9 +37,7 @@ const News = (props) => {
     const baseUrl = "https://newsapi.org/v2/top-headlines?"
     const key = "apiKey=1e4211b8b7a3444cbbb2e736508f489a"
 
-    const setUserFunc = () => {
-        setUser(userTest);
-    }
+
 
     //set delay because of API limitition...
     function sleep(ms) {
@@ -79,60 +78,16 @@ const News = (props) => {
         }
         return arr
     }
-    // fetch news as an object array---------------------------------
-    async function fetchNewsData() {
-        let currUser = Object.assign(userTest);
-        let resultList = []
-        try {
-            console.log('news useEffect fired.\n');
-            let symbolList = currUser.stockList;
 
-            for (let i = 0; i < symbolList.length; i++) {
-                let companyName = await getCompanyName(symbolList[i]);
-                let newName = companyName.split(' ')
-                console.log(newName);
-                let url = baseUrl + `q=${newName[0]}&${key}`
-                const news = await axios.get(url);
-                await sleep(1100);
-                if (news.data && news.data.articles) {
-                    if (news.data.articles.length > 0) {
-                        console.log(news.data.articles)
-                        let symbolNews = {
-                            symbol: symbolList[i],
-                            news: news.data.articles
-                        }
-                        console.log(symbolNews);
-                        resultList.push(symbolNews)
-                    }
-                }
-            }
-            console.log(resultList);
-            return resultList
-        } catch (error) {
-            console.log(error)
+
+    useEffect(async () => {
+        async function getUserInfo(id){
+            if(!id || id.trim() === '') throw 'You need to provide an id'
+          const serverUrl = "http://ownstockmodel.herokuapp.com/api/user"
+            const thisUser = await axios.get(`${serverUrl}/${id}`);
+            console.log(thisUser);
+            return thisUser;
         }
-    }
-
-    function imageProcess(id, path) {
-
-        if (!path || !id) throw 'You need to provide an image path'
-
-
-        imageMagick.resize({
-            srcPath: path,
-            width: 80,
-            height: 40,
-
-        }, function (err, stdout, stderr) {
-            if (err) throw err;
-            fs.writeFileSync(`${id}-resized.jpg`, stdout, 'binary');
-            console.log(`${id} being processed`);
-
-        })
-    }
-
-
-    useEffect(() => {
         //fetch public news-------
         async function fetchPulicNews() {
 
@@ -213,9 +168,7 @@ const News = (props) => {
                                     for (let j = 0; j < news.data.articles.length; j++) {
                                         let currNews = news.data.articles[j];
                                         let key = uuidv4();
-                                        // console.log('public News',currNews);
-                                        // imageProcess(key,currNews.urlToImage);
-                                        // to do :using imageMagick to process
+            
                                         let newsDate = new Date(currNews.publishedAt).toLocaleString()
                                         //console.log(newsDate);
                                         let item = {
@@ -257,12 +210,23 @@ const News = (props) => {
 
         if (content) {
             const { currentUser } = content
-            if (!!currentUser) {
+        
+            console.log('news current User',currentUser);
+            if (currentUser) {
+                let userId = currentUser.uid 
+                console.log('user id', userId)
+                
                 try {
-                    fetchNewsList(currentUser.stockList);
+                    const user = await getUserInfo(userId);
+                    if(user){
+                        fetchNewsList(user.stockList);
+                    }else{
+                        throw 'user not found'
+                    }
+                    
                 } catch (error) {
                     // console.log(error);
-                    setError(true);
+                    throw ' no user info'
                 }
 
             }

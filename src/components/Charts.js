@@ -1,5 +1,5 @@
-import React, {useEffect, useState,useContext} from 'react';
-import {AuthContext} from '../firebase/Auth';
+import React, { useEffect, useState, useContext } from 'react';
+import { AuthContext } from '../firebase/Auth';
 import axios from 'axios'
 import '../antd.css';
 import '../App.css';
@@ -9,7 +9,7 @@ import { BarChart, Bar, Line, Area, ComposedChart, LineChart, XAxis, YAxis, Cart
 
 const { Header } = Layout;
 const userTest = { id: 'idabc', stockList: ['AAPL', 'IBM', 'BA', 'GOOGL', 'FB', 'NVDA'] }
-let testMode = true;
+let testMode = false;
 
 const style = {
     height: 30,
@@ -45,7 +45,7 @@ function Charts() {
     const key2 = 'access_key=bf8eddbcab2ddc7e3df6ad363bb3ac55&'
 
 
- 
+
 
     //set delay because of API limitition...
     function sleep(ms) {
@@ -53,7 +53,7 @@ function Charts() {
     }
 
     //effect when user not loggin
-    useEffect(() => {
+    useEffect(async () => {
         async function fetchData() {
             try {
                 console.log("user not login useEffect fired.")
@@ -103,11 +103,11 @@ function Charts() {
         }
         //get introday 
         async function getIntodayData(stockList) {
-            if(!stockList) throw 'no stockList'
+            if (!stockList) throw 'no stockList'
             let userResultList = [];
             if (stockList.length > 0) {
                 for (let i = 0; i < stockList.length; i++) {
-    
+
                     let syb = stockList[i];
                     //for logged in user, get intraday data.
                     let url = baseUrl2 + func3 + key2 + `symbols=${syb}&interval=15min`
@@ -116,7 +116,7 @@ function Charts() {
                     try {
                         const single = await axios.get(url);
                         let { data } = single
-                        
+
                         // console.log(data)
                         if (data.data) {
                             let symbolResult = []
@@ -150,26 +150,26 @@ function Charts() {
                             }
                             userResultList.push(obj);
                         } else {
-                           // console.log(error);
+                            // console.log(error);
                             continue
                         }
                     } catch (error) {
-                      //  console.log(error);
+                        //  console.log(error);
                         continue
                     }
                 }
                 setUserData(userResultList);
                 console.log('Introday user data', userResultList)
                 setLoading(false);
-               
+
             }
         }
-    
-    //get One Month data
+
+        //get One Month data
         async function getOneMonthData(stockList) {
-            if(!stockList) throw 'no stockList'
+            if (!stockList) throw 'no stockList'
             let userData = [];
-          
+
             if (stockList.length > 0) {
                 for (let i = 0; i < stockList.length; i++) {
                     let syb = stockList[i];
@@ -185,7 +185,7 @@ function Charts() {
                     await sleep(1100);
                     try {
                         const getData = await axios.get(url_1month);
-                        
+
                         if (getData && getData.data && getData.data.data) {
                             let dataArr = getData.data.data;
                             //console.log('SixMonData',dataArr);
@@ -213,20 +213,20 @@ function Charts() {
                         }
                     } catch (error) {
                         console.log(error);
-                         continue;
+                        continue;
                     }
                 }
                 console.log('One Mon user data', userData);
                 setUserOneMonData(userData);
-                
+
             }
-    
+
         }
-    //get threee month data
+        //get threee month data
         async function getThreeMonthData(stockList) {
-            if(!stockList) throw 'no stockList'
+            if (!stockList) throw 'no stockList'
             let userData = [];
-           
+
             if (stockList.length > 0) {
                 for (let i = 0; i < stockList.length; i++) {
                     let syb = stockList[i];
@@ -245,12 +245,12 @@ function Charts() {
                     await sleep(1100);
                     try {
                         const getData = await axios.get(url_3month);
-                        
+
                         if (getData && getData.data && getData.data.data) {
                             let dataArr = getData.data.data;
                             //console.log('SixMonData',dataArr);
                             let resultList = [];
-    
+
                             for (let j = dataArr.length - 1; j >= 0; j--) {
                                 let curr = dataArr[j];
                                 let newElement = {
@@ -271,27 +271,27 @@ function Charts() {
                                 symbolData: resultList
                             }
                             userData.push(ThreeMonObj);
-    
+
                         }
                     } catch (error) {
                         console.log(error);
-                         continue;
+                        continue;
                     }
-    
-    
+
+
                 }
                 console.log('three Month user data', userData);
                 setUserThreeMonData(userData);
-           
+
             }
-    
+
         }
-    //------------get six month data--------------------------------------- 
+        //------------get six month data--------------------------------------- 
         async function getSixMonthData(stockList) {
-            if(!stockList) throw 'no stockList'
+            if (!stockList) throw 'no stockList'
             let userData = [];
             //for test
-           
+
             if (stockList.length > 0) {
                 for (let i = 0; i < stockList.length; i++) {
                     let syb = stockList[i];
@@ -307,12 +307,12 @@ function Charts() {
                     await sleep(1100);
                     try {
                         const getData = await axios.get(url_6month);
-                        
+
                         if (getData && getData.data && getData.data.data) {
                             let dataArr = getData.data.data;
                             //console.log('SixMonData',dataArr);
                             let resultList = [];
-    
+
                             for (let j = dataArr.length - 1; j >= 0; j--) {
                                 let curr = dataArr[j];
                                 let newElement = {
@@ -333,28 +333,28 @@ function Charts() {
                                 symbolData: resultList
                             }
                             userData.push(SixMonObj);
-    
+
                         }
                     } catch (error) {
                         console.log(error);
-                         continue;
+                        continue;
                     }
-    
-    
+
+
                 }
                 console.log('Six Month user data', userData);
                 setUserSixMonData(userData);
-                
+
             }
-    
+
         }
-    //------------get one year data--------------------------------------- 
+        //------------get one year data--------------------------------------- 
         async function getOneYearData(stockList) {
-           if(!stockList) throw 'no stockList'
+            if (!stockList) throw 'no stockList'
 
             let userData = [];
             //for test
-          
+
             if (stockList.length > 0) {
                 for (let i = 0; i < stockList.length; i++) {
                     let syb = stockList[i];
@@ -365,17 +365,17 @@ function Charts() {
                     let thisMonth = today.getMonth();
                     let startDate4;  //12 month
                     startDate4 = new Date(today.setMonth(thisMonth - 12)).toISOString().substring(0, 10);
-    
+
                     let url_1year = baseUrl2 + func2 + key2 + `symbols=${syb}&date_from=${startDate4}&date_to=${endDate}&limit=500`;
                     await sleep(1100);
                     try {
                         const getData = await axios.get(url_1year);
-                        
+
                         if (getData && getData.data && getData.data.data) {
                             let dataArr = getData.data.data;
                             //console.log('SixMonData',dataArr);
                             let resultList = [];
-    
+
                             for (let j = dataArr.length - 1; j >= 0; j--) {
                                 let curr = dataArr[j];
                                 let newElement = {
@@ -396,57 +396,62 @@ function Charts() {
                                 symbolData: resultList
                             }
                             userData.push(Obj);
-    
+
                         }
                     } catch (error) {
                         console.log(error);
                         continue;
                     }
-    
-    
+
+
                 }
                 console.log('12 Month user data', userData);
                 setUserOneYearData(userData);
             }
-    
+
         }
-    
+
         fetchData();
-        if(testMode){
-            let currentUser = Object.assign({},userTest);
-            try {
-                getIntodayData(currentUser.stockList);
-                getOneMonthData(currentUser.stockList);
-                getThreeMonthData(currentUser.stockList);
-                getSixMonthData(currentUser.stockList);
-                getOneYearData(currentUser.stockList); 
-            } catch (error) {
-                console.log(error);
-            }
-        }else{
-            if(content){
-                const {currentUser} = content
-            
-            if (!!currentUser) {
+        //get user info
+        async function getUserInfo(id) {
+            if (!id || id.trim() === '') throw 'You need to provide an id'
+            const serverUrl = "http://ownstockmodel.herokuapp.com/api/user"
+            const thisUser = await axios.get(`${serverUrl}/${id}`);
+            console.log(thisUser);
+            return thisUser;
+        }
+
+        if (content) {
+            const { currentUser } = content
+
+            if (currentUser) {
+                let userId = currentUser.uid 
+                console.log('user id', userId)
                 try {
-                    getIntodayData(currentUser.stockList);
-                    getOneMonthData(currentUser.stockList);
-                    getThreeMonthData(currentUser.stockList);
-                    getSixMonthData(currentUser.stockList);
-                    getOneYearData(currentUser.stockList); 
+                    let user = await getUserInfo(userId);
+                    if(user){
+                        getIntodayData(user.stockList);
+                        getOneMonthData(user.stockList);
+                        getThreeMonthData(user.stockList);
+                        getSixMonthData(user.stockList);
+                        getOneYearData(user.stockList);
+                    }else{
+                        throw 'user not found'
+                    }
+                    
                 } catch (error) {
                     console.log(error);
                 }
-               
+
             }
+
+
+
         }
-
-
-    }
 
     }, [])
 
-    
+
     //build bar chart-----------------------
     const buildBarChart = (chartData) => {
         let data = chartData.symbolData;
@@ -530,7 +535,7 @@ function Charts() {
 
         return (
             <Col key={chartData.index.toString()} className="gutter-row" xs={24} sm={24} md={24} lg={12} >
-               <Typography><p className="chartName">{chartData.symbol}</p></Typography>
+                <Typography><p className="chartName">{chartData.symbol}</p></Typography>
 
                 <LineChart width={500} height={250} data={data} margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
                     <CartesianGrid strokeDasharray="3 3" />
@@ -615,10 +620,10 @@ function Charts() {
     } else {
         showData = userData; // intraday data
     }
-   // console.log('showData', showData);
+    // console.log('showData', showData);
 
     if (showData) {
-       
+
         if (timeType === 'today') {
             if (chartType === 'Bar') {
                 userDataDiv = showData.map((chart) => {
