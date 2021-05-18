@@ -654,9 +654,9 @@ function Home(props) {
         return (
             <div>
                 <Title>Welcome to Stock Web!</Title>
-                <Header className="site-layout-background" style={{ textAlign: 'center' }} style={{ padding: 0 }} >
+                {/* <Header className="site-layout-background" style={{ textAlign: 'center' }} style={{ padding: 0 }} >
                     {selectDiv}
-                </Header>
+                </Header> */}
                 <Typography><Title level={3}>Popular Stock Prices</Title></Typography>
                 <Row gutter={16}>
                     {body}
