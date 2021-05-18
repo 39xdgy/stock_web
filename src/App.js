@@ -13,6 +13,7 @@ import SignUp from './components/SignUp'
 import Account from './components/Account'
 import PrivateRoute from './components/PrivateRoute'
 import Profile from './components/Profile';
+import AboutUs from './components/AboutUs';
 
 const {Content}=Layout;
 
@@ -36,6 +37,7 @@ function App() {
                 <Route exact path='/siginup' component = {SignUp}/>
                 <PrivateRoute path="/account" component={Account} />
                 <PrivateRoute path="/profile" component={Profile} />
+                <Route exact path='/aboutus' component={AboutUs} />
               </div>
             </Content>
           </Layout>
