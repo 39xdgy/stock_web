@@ -36,13 +36,7 @@ const ChartStyles = styled.div`
 class HeikinAshi extends React.Component {
  
   render() {
-    //   console.log(typeof days);
-    //   daysArray = Array.from(days);
-    //   const parsedData = [];
-    //   console.log(days);
-    //   daysArray.forEach((day, index) => {});
-    //   return parsedData;
-    // };
+
     const ha = heikinAshi();
     const ema20 = ema()
       .id(0)
@@ -89,10 +83,6 @@ class HeikinAshi extends React.Component {
 const start = xAccessor(last(data));
 const end = xAccessor(data[Math.max(0, data.length - 500)]);
 const xExtents = [start, end];
-  // const start = xAccessor(last(data, d => d.date));
-
-  // const end = xAccessor(min(data, d => d.date));
-  //   const xExtents = [start, end];
 
     return (
       <ChartStyles>
@@ -239,16 +229,6 @@ const xExtents = [start, end];
   }
 }
 
-// HeikinAshi.propTypes = {
-//   data: PropTypes.array.isRequired,
-//   width: PropTypes.number.isRequired,
-//   ratio: PropTypes.number.isRequired,
-//   type: PropTypes.oneOf(["svg", "hybrid"]).isRequired
-// };
-
-// HeikinAshi.defaultProps = {
-//   type: "svg"
-// };
 
 HeikinAshi = fitWidth(HeikinAshi);
 export default HeikinAshi;

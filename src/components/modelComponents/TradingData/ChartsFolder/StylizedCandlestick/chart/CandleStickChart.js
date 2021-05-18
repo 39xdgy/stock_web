@@ -168,13 +168,7 @@ class Chart extends React.Component {
                     strokeOpacity={0.7}
                   />
                 </Group>
-                {/* <Volume
-                  top={height - margin.bottom - volumeHeight}
-                  height={volumeHeight}
-                  scale={yVolumeScale}
-                  xScale={xScale}
-                  data={b}
-                /> */}
+                
               </g>
             );
           })}
@@ -232,33 +226,12 @@ class Chart extends React.Component {
             width={width}
             height={height - margin.bottom}
             fill='transparent'
-            // onMouseMove={ event => {
-            //   console.log("HELLO BAR");
-            //   console.table(event);
-            //   this.handleTooltip({
-            //     event,
-            //     xStock,
-            //     xScale,
-            //     yScale,
-            //     data: b
-            //   })
-            // }}
-            // onMouseLeave={event => hideTooltip()}
-            // onMouseMove={ event =>
-            //   this.handleTooltip({
-            //     event,
-            //     data,
-            //     xSelector,
-            //     xScale,
-            //     yScale
-            //   })}
 
             onMouseMove={event => {
               const { x: xPoint, y: yPoint } = localPoint(this.svg, event);
               const bandWidth = xScale.step();
               const index = Math.floor(xPoint / bandWidth);
               const val = buckets[index];
-              //const left = xScale(val.closeTime);
               this.setState({
                 activeBucket: val,
                 yPoint

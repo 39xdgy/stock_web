@@ -7,7 +7,6 @@ import StatsDetails from "./UpdateStatsDetails";
 import DarkButtons from "../../extraFeaturesFolder/DarkButtonsDisplay";
 import NotFound from "../NotFound";
 import LineChart from "../ChartsFolder/LCDiagram";
-// import { quoteFormatting } from "../../../utils/format";
 import setTitle from "../../../utils/title";
 import HeikinAshi from "../ChartsFolder/HADiagram";
 import StylizedCandleStickChart from "../ChartsFolder/StylizedCandlestick";
@@ -83,10 +82,8 @@ const PeerPerformance = ({ peers, peerData }) => {
 const QuoteData = props => {
   console.log(props.quote);
 
-  // format quote data
-  //const { quote, stats, logo, news } = props.data.quote;
+  
   const [chartData, setChartData] = useState(null);
-  //const display = quoteFormatting(quote, stats);
   setTitle(props.symbol, props.quote.regularMarketPrice);
 
   const [activePeriod, setActivePeriod] = useState("YTD");
@@ -118,12 +115,10 @@ const QuoteData = props => {
         let d = new Date(Date.now());
         d.setYear(d.getFullYear() - num);
         p1 = Math.floor(d.getTime() / 1000);
-        // p2=(Date.now()/1000).toString();
-        // p2=p2.slice(0,p2.length-4)
+        
       } else if (activePeriod === "YTD") {
         p1 = new Date(d3.timeYear(Date.now())).getTime() / 1000;
-        // p2=(Date.now()/1000).toString();
-        // p2=p2.slice(0,p2.length-4)
+        
       }
       const fetcher = async (s, i, _p1, _p2) => {
         let data = await props.chartDataHandler(s, i, _p1, _p2);
@@ -135,9 +130,6 @@ const QuoteData = props => {
     return;
   }, [activePeriod]);
 
-  // useEffect(() => {
-  //   setImgSrc(logo.url);
-  // }, [logo.url]);
   console.log(props.quote);
 
   return (
@@ -215,7 +207,6 @@ const QuoteData = props => {
                 height={600}
                 data={chartData}
                 ticker={props.symbol}
-                // logo={imgSrc}
               />
             </div>
           </>

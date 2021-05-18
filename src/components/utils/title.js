@@ -1,7 +1,8 @@
 const setTitle = (symbol, quote) => {
   let title = '';
   if (symbol && quote) {
-    title = `${symbol} - ${quote}`;
+    //title = `${symbol} - ${quote}`;
+    title = '';
   } else {
     title = '';
   }

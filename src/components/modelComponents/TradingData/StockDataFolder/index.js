@@ -6,24 +6,21 @@ import { DataContext } from "../MarketDataDetails";
 export default props => {
   
   const {
-    //peers,
     fetchingQuote,
     fetchingIncidies,
     handleSymbolChange,
     YahooChartDataFetcher,
     YahooQuoteFetcher,
-    //getPeers,
+    
     quoteData
   } = useContext(DataContext);
   const [ticker, setTicker] = useState(props.symbol);
   useEffect(() => {
     handleSymbolChange(ticker);
-    //getPeers(ticker);
+    
   }, [ticker]);
   useEffect(() => setTicker(props.symbol), [props.symbol]);
-    //  console.log(quoteData);
-    //  console.log(peers);
-    //  debugger;
+    
   return (
     <Segment
       loading={fetchingQuote.loading && !fetchingIncidies.loading}

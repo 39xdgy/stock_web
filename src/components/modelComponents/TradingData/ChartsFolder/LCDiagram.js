@@ -78,7 +78,6 @@ class LineChart extends Component {
         <Link
           to={"/" + this.props.name}
           className={this.props.name}
-          // onClick={window.scrollTo(0, 0)}
           >
           <Grid columns={3}>
             <Grid.Column width={10}>

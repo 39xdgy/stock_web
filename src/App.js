@@ -43,14 +43,14 @@ function App() {
                 <PrivateRoute path="/account" component={Account} />
                 <PrivateRoute path="/profile" component={Profile} />
                 <Route exact path='/aboutus' component={AboutUs} />
-                <Route exact path='/models' render={props =>
+                <Route exact path='/model' render={props =>
                                     <DataProvider>
                                     <WithInstantSearch>
                                         <Header />
                                     </WithInstantSearch>
                                     </DataProvider>
                                   } />
-                <Route exact path='/models/:id' render={props => (
+                <Route exact path='/model/:id' render={props => (
                           <DataProvider>
                         <WithInstantSearch>
                             <Header />
