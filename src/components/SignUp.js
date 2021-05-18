@@ -25,7 +25,7 @@ function SignUp() {
     }
   };
 
-  if (currentUser) {
+  if (currentUser.currentUser) {
     return <Redirect to="/" />;
   }
 
