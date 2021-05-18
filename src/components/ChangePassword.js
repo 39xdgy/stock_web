@@ -4,7 +4,7 @@ import { doChangePassword } from '../firebase/FirebaseFunctions';
 import '../App.css';
 
 function ChangePassword() {
-  const { currentUser } = useContext(AuthContext);
+  const  currentUser  = useContext(AuthContext);
   const [pwMatch, setPwMatch] = useState('');
   console.log(currentUser);
 
@@ -23,7 +23,7 @@ function ChangePassword() {
 
     try {
       await doChangePassword(
-        currentUser.email,
+        currentUser.currentUser.email,
         currentPassword.value,
         newPasswordOne.value
       );
@@ -32,7 +32,7 @@ function ChangePassword() {
       alert(error);
     }
   };
-  if (currentUser.providerData[0].providerId === 'password') {
+  if (currentUser.currentUser.providerData[0].providerId === 'password') {
     return (
       <div>
         {pwMatch && <h4 className="error">{pwMatch}</h4>}
