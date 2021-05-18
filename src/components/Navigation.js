@@ -48,9 +48,7 @@ const Navigation = () => {
                             <Link to='/News'>News</Link>
                         </Menu.Item>
                         <Menu.Item key='7'>
-                        <Link to='/sigin'>
                             <SignOutButton/>
-                            </Link>
                         </Menu.Item>
                     </Menu>
                 </Sider>
