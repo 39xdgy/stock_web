@@ -1,30 +1,28 @@
 import React from 'react';
 
 const SearchNews = (props) => {
-  const handleChange = (e) => {
-     
-    props.searchValue(e.target.value);
-  };
+  // const handleChange = (e) => {
+  //   props.searchValue(e.target.value);
+  // };
   return (
     <form
       method="POST "
-    //   onSubmit={(e) => {
-    //     e.preventDefault();
-    //   }}
+      onSubmit={(e) => {
+        e.preventDefault();
+      }}
       name="formName"
       className="center"
     >
       <label>
-        <span>Search News </span>
+        <span>Search Shows: </span>
         <input
           autoComplete="off"
           type="text"
           name="searchTerm"
-          onChange={handleChange}
-         
+          onInput={e=> props.searchValue(e.target.value)}
         />
       </label>
-      {/* <button type="submit">Search</button> */}
+      <button type="submit">Search</button>
     </form>
   );
 };

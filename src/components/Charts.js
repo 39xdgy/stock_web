@@ -38,18 +38,14 @@ function Charts() {
     const [timeType, setTime] = useState('today');
     const symbol = ['DJI.INDX', 'NDX.INDX', 'NYA.INDX']
 
-    // const key = "AWWY4QSC0AS018VB"
-    // const func = 'TIME_SERIES_INTRADAY'
-    // const baseUrl1 = `https://www.alphavantage.co/query?`
+
     const baseUrl2 = 'http://api.marketstack.com/v1/'
     const func2 = "eod?"
     const func3 = "intraday?"
     const key2 = 'access_key=bf8eddbcab2ddc7e3df6ad363bb3ac55&'
 
 
-    // const setUserFunc = () => {
-    //     setUser(userTest);
-    // }
+ 
 
     //set delay because of API limitition...
     function sleep(ms) {
@@ -107,11 +103,12 @@ function Charts() {
         }
         //get introday 
         async function getIntodayData(stockList) {
+            if(!stockList) throw 'no stockList'
             let userResultList = [];
             if (stockList.length > 0) {
-                for (let i = 0; i < user.stockList.length; i++) {
+                for (let i = 0; i < stockList.length; i++) {
     
-                    let syb = user.stockList[i];
+                    let syb = stockList[i];
                     //for logged in user, get intraday data.
                     let url = baseUrl2 + func3 + key2 + `symbols=${syb}&interval=15min`
                     // console.log(url);
@@ -170,13 +167,12 @@ function Charts() {
     
     //get One Month data
         async function getOneMonthData(stockList) {
-           // let currentUser = Object.assign(userTest);
+            if(!stockList) throw 'no stockList'
             let userData = [];
-            //for test
-            // console.log(currentUser);
+          
             if (stockList.length > 0) {
-                for (let i = 0; i < currentUser.stockList.length; i++) {
-                    let syb = currentUser.stockList[i];
+                for (let i = 0; i < stockList.length; i++) {
+                    let syb = stockList[i];
                     let today = new Date();
                     let yesterday = new Date(today.setDate(today.getDate() - 1)).toISOString().substring(0, 10);
                     // console.log('yesterDay',yesterday);
@@ -228,13 +224,12 @@ function Charts() {
         }
     //get threee month data
         async function getThreeMonthData(stockList) {
-           // let currentUser = Object.assign(userTest);
+            if(!stockList) throw 'no stockList'
             let userData = [];
-            //for test
-            // console.log(currentUser);
+           
             if (stockList.length > 0) {
-                for (let i = 0; i < currentUser.stockList.length; i++) {
-                    let syb = currentUser.stockList[i];
+                for (let i = 0; i < stockList.length; i++) {
+                    let syb = stockList[i];
                     let today = new Date();
                     let yesterday = new Date(today.setDate(today.getDate() - 1)).toISOString().substring(0, 10);
                     // console.log('yesterDay',yesterday);
@@ -293,13 +288,13 @@ function Charts() {
         }
     //------------get six month data--------------------------------------- 
         async function getSixMonthData(stockList) {
-            //let currentUser = Object.assign(userTest);
+            if(!stockList) throw 'no stockList'
             let userData = [];
             //for test
-            // console.log(currentUser);
+           
             if (stockList.length > 0) {
-                for (let i = 0; i < currentUser.stockList.length; i++) {
-                    let syb = currentUser.stockList[i];
+                for (let i = 0; i < stockList.length; i++) {
+                    let syb = stockList[i];
                     let today = new Date();
                     let yesterday = new Date(today.setDate(today.getDate() - 1)).toISOString().substring(0, 10);
                     // console.log('yesterDay',yesterday);
@@ -355,13 +350,14 @@ function Charts() {
         }
     //------------get one year data--------------------------------------- 
         async function getOneYearData(stockList) {
-           // let currentUser = Object.assign(userTest);
+           if(!stockList) throw 'no stockList'
+
             let userData = [];
             //for test
-            // console.log(currentUser);
+          
             if (stockList.length > 0) {
-                for (let i = 0; i < currentUser.stockList.length; i++) {
-                    let syb = currentUser.stockList[i];
+                for (let i = 0; i < stockList.length; i++) {
+                    let syb = stockList[i];
                     let today = new Date();
                     let yesterday = new Date(today.setDate(today.getDate() - 1)).toISOString().substring(0, 10);
                     // console.log('yesterDay',yesterday);
@@ -371,9 +367,10 @@ function Charts() {
                     startDate4 = new Date(today.setMonth(thisMonth - 12)).toISOString().substring(0, 10);
     
                     let url_1year = baseUrl2 + func2 + key2 + `symbols=${syb}&date_from=${startDate4}&date_to=${endDate}&limit=500`;
+                    await sleep(1100);
                     try {
                         const getData = await axios.get(url_1year);
-                        await sleep(1100);
+                        
                         if (getData && getData.data && getData.data.data) {
                             let dataArr = getData.data.data;
                             //console.log('SixMonData',dataArr);
@@ -415,16 +412,36 @@ function Charts() {
         }
     
         fetchData();
-        if(content){
-            const {currentUser} = content
-        
-        if (!!currentUser) {
-            getIntodayData(currentUser.stockList);
-            getOneMonthData(currentUser.stockList);
-            getThreeMonthData(currentUser.stockList);
-            getSixMonthData(currentUser.stockList);
-            getOneYearData(currentUser.stockList);
+        if(testMode){
+            let currentUser = Object.assign({},userTest);
+            try {
+                getIntodayData(currentUser.stockList);
+                getOneMonthData(currentUser.stockList);
+                getThreeMonthData(currentUser.stockList);
+                getSixMonthData(currentUser.stockList);
+                getOneYearData(currentUser.stockList); 
+            } catch (error) {
+                console.log(error);
+            }
+        }else{
+            if(content){
+                const {currentUser} = content
+            
+            if (!!currentUser) {
+                try {
+                    getIntodayData(currentUser.stockList);
+                    getOneMonthData(currentUser.stockList);
+                    getThreeMonthData(currentUser.stockList);
+                    getSixMonthData(currentUser.stockList);
+                    getOneYearData(currentUser.stockList); 
+                } catch (error) {
+                    console.log(error);
+                }
+               
+            }
         }
+
+
     }
 
     }, [])
@@ -598,7 +615,7 @@ function Charts() {
     } else {
         showData = userData; // intraday data
     }
-    console.log('showData', showData);
+   // console.log('showData', showData);
 
     if (showData) {
        

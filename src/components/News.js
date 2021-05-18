@@ -24,7 +24,7 @@ const style = {
 const userTest = { id: 'idabc', stockList: ['AAPL', 'IBM', 'BA', 'GOOGL', 'FB', 'NVDA'] }
 let testMode = true;
 
-const News = () => {
+const News = (props) => {
     const content = useContext(AuthContext);
     const [news, setNews] = useState(undefined);
     const [loading, setLoading] = useState(true);
@@ -322,6 +322,7 @@ const News = () => {
         }
 
     }, [searchTerm]);
+    //console.log(props)
     const searchValue = async (value) => {
         setSearchTerm(value);
     };
