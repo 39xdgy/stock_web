@@ -42,8 +42,13 @@ function Charts() {
     const baseUrl2 = 'http://api.marketstack.com/v1/'
     const func2 = "eod?"
     const func3 = "intraday?"
+<<<<<<< HEAD
     const key2 = 'access_key=bf8eddbcab2ddc7e3df6ad363bb3ac55&'
     const serverUrl = "http://ownstockmodel.herokuapp.com/api/user/"
+=======
+    const key2 = 'access_key=bc3f4991e9abb86d188bede651d502f4&'
+    const serverUrl = "https://cors-anywhere.herokuapp.com/http://ownstockmodel.herokuapp.com/api/user/"
+>>>>>>> 0d3e2f4e116bd24f63267ebe09efaa77fd31b6ff
 
 
 
@@ -56,6 +61,7 @@ function Charts() {
     useEffect(async () => {
         async function fetchData() {
             try {
+                
                 console.log("user not login useEffect fired.")
                 let resultList = [];
                 for (let i = 0; i < symbol.length; i++) {
@@ -417,12 +423,13 @@ function Charts() {
         async function getUserData(){
             if (content) {
                 const { currentUser } = content
-    
+               // console.log(currenUser);
                 if (currentUser) {
                     let userId = currentUser.uid 
                     console.log('user id', userId)
                     try {
                         let user = await axios.get(serverUrl+userId);
+<<<<<<< HEAD
                         let stockList = user.data.stockList
                         console.log(typeof(stockList))
                         if(user){
@@ -435,6 +442,16 @@ function Charts() {
                             console.log("test in chart fin")
                             
                             
+=======
+                       // let user = Object.assign({},userTest)
+                        console.log('test user here', user)
+                        if(user){
+                            getIntodayData(user.data.stockList);
+                            getOneMonthData(user.data.stockList);
+                            getThreeMonthData(user.data.stockList);
+                            getSixMonthData(user.data.stockList);
+                            getOneYearData(user.data.stockList);
+>>>>>>> 0d3e2f4e116bd24f63267ebe09efaa77fd31b6ff
                         }else{
                             throw 'user not found'
                         }

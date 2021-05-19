@@ -45,7 +45,7 @@ const Navigation = () => {
                             <Link to='/models'>Models</Link>
                         </Menu.Item>
                         <Menu.Item key='6'>
-                            <Link to='/News'>News</Link>
+                            <Link to='/News' >News</Link>
                         </Menu.Item>
                         <Menu.Item key='7'>
                             <SignOutButton/>

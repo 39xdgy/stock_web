@@ -34,11 +34,14 @@ function App() {
                 <Route exact path='/sigin' component = {SignIn}/>
                 <Route exact path='/signup' component = {SignUp}/>
                 <Route exact path='/loading' component = {Loading}/>
-                <Route exact path='/siginup' component = {SignUp}/>
+
                 <Route exact path='/aboutUs' component = {About}/>
+
+                <Route exact path='/siginup' component = {SignUp}/>
+
                 <PrivateRoute path="/account" component={Account} />
                 <PrivateRoute path="/profile" component={Profile} />
-                <Route exact path='/aboutus' component={About} />
+              
               </div>
             </Content>
           </Layout>
