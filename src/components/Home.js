@@ -44,7 +44,7 @@ function Home(props) {
     const baseUrl2 = 'https://api.marketstack.com/v1/'
     const func2 = "eod?"
     const func3 = "intraday?"
-    const key2 = 'access_key=bf8eddbcab2ddc7e3df6ad363bb3ac55&'
+    const key2 = 'access_key=bc3f4991e9abb86d188bede651d502f4&'
 
 
     const setUserFunc = () => {
