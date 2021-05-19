@@ -43,8 +43,8 @@ function Charts() {
     const func2 = "eod?"
     const func3 = "intraday?"
     const key2 = 'access_key=bc3f4991e9abb86d188bede651d502f4&'
-    //const serverUrl = "https://cors-anywhere.herokuapp.com/https://ownstockmodel.herokuapp.com/api/user/"
-    const serverUrl = "http://localhost:3006/api/user/"
+    const serverUrl = "https://cors-anywhere.herokuapp.com/https://ownstockmodel.herokuapp.com/api/user/"
+    //const serverUrl = "http://localhost:3006/api/user/"
 
 
     //set delay because of API limitition...
