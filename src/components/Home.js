@@ -1,8 +1,8 @@
 import React, {useEffect, useState,useContext} from 'react';
 import {AuthContext} from '../firebase/Auth';
 import axios from 'axios'
-import 'antd/dist/antd.css';
-//import uuid from 'uuid'
+
+import '../antd.css';
 import { Layout, Row, Col, Select, Radio, Alert, Typography, BackTop } from 'antd';
 import { BarChart, Bar, Line, Area, ComposedChart, LineChart, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
 const { Option } = Select;
@@ -105,13 +105,13 @@ function Home(props) {
             }
         }
         fetchData();
-        if (!!currentUser) {
-            getIntodayData();
-            getOneMonthData();
-            getThreeMonthData();
-            getSixMonthData();
-            getOneYearData();
-        }
+        // if (!!currentUser) {
+        //     getIntodayData();
+        //     getOneMonthData();
+        //     getThreeMonthData();
+        //     getSixMonthData();
+        //     getOneYearData();
+        // }
 
     }, [])
 
@@ -284,7 +284,7 @@ function Home(props) {
                     }
                 } catch (error) {
                     console.log(error);
-                    // continue;
+                     continue;
                 }
 
 
@@ -345,7 +345,7 @@ function Home(props) {
                     }
                 } catch (error) {
                     console.log(error);
-                    // continue;
+                     continue;
                 }
 
 
@@ -405,7 +405,7 @@ function Home(props) {
                     }
                 } catch (error) {
                     console.log(error);
-                    //continue;
+                    continue;
                 }
 
 
@@ -422,7 +422,7 @@ function Home(props) {
 
         return (
             <Col key={chartData.index.toString()} className="gutter-row" xs={24} sm={24} md={24} lg={12}>
-                <Typography><Title level={4}>{chartData.symbol}</Title></Typography>
+                <Typography><p className="chartName">{chartData.symbol}</p></Typography>
                 <BarChart width={500} height={250} data={data} barCategoryGap={'30%'} reverseStackOrder={true}>
                     <CartesianGrid strokeDasharray="3 3" />
                     <XAxis dataKey="date" padding={{ left: 20, right: 20 }} />
@@ -440,15 +440,15 @@ function Home(props) {
 
         return (
             <Col key={chartData.index.toString()} className="gutter-row" xs={24} sm={24} md={24} lg={12}>
-                <Typography><Title level={4}>{chartData.symbol}</Title></Typography>
+                <Typography><p className="chartName">{chartData.symbol}</p></Typography>
                 <LineChart width={500} height={250} data={data} margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
                     <CartesianGrid strokeDasharray="3 3" />
                     <XAxis dataKey="date" />
                     <YAxis type="number" domain={['auto', 'auto']} />
                     <Tooltip />
                     <Legend verticalAlign="top" height={36} />
-                    <Line type='natural' dot={false} dataKey="high" stroke="#8884d8" />
-                    <Line type='natural' dot={false} dataKey="low" stroke="#82ca9d" />
+                    <Line type='natural' dot={false} dataKey="high" stroke="#6e69cb" />
+                    <Line type='natural' dot={false} dataKey="low" stroke="#008800" />
                 </LineChart>
             </Col>
         )
@@ -459,7 +459,7 @@ function Home(props) {
 
         return (
             <Col key={chartData.index.toString()} className="gutter-row" xs={24} sm={24} md={24} lg={12}>
-                <Typography><Title level={4}>{chartData.symbol}</Title></Typography>
+                <Typography><p className="chartName">{chartData.symbol}</p></Typography>
                 <ComposedChart width={500} height={250} data={data}>
                     <XAxis dataKey="date" />
                     <YAxis type="number" domain={['auto', 'auto']} />
@@ -480,7 +480,7 @@ function Home(props) {
 
         return (
             <Col key={chartData.index.toString()} className="gutter-row" xs={24} sm={24} md={24} lg={12} >
-                <Typography><Title level={4}>{chartData.symbol}</Title></Typography>
+                <Typography><p className="chartName">{chartData.symbol}</p></Typography>
 
                 <BarChart width={500} height={250} data={data} barCategoryGap={'30%'} reverseStackOrder={true}>
                     <CartesianGrid strokeDasharray="3 3" />
@@ -499,7 +499,7 @@ function Home(props) {
 
         return (
             <Col key={chartData.index.toString()} className="gutter-row" xs={24} sm={24} md={24} lg={12} >
-                <Typography><Title level={4}>{chartData.symbol}</Title></Typography>
+                <Typography><p className="chartName">{chartData.symbol}</p></Typography>
 
                 <LineChart width={500} height={250} data={data} margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
                     <CartesianGrid strokeDasharray="3 3" />
@@ -518,7 +518,7 @@ function Home(props) {
 
         return (
             <Col key={chartData.index.toString()} className="gutter-row" xs={24} sm={24} md={24} lg={12} >
-                <Typography><Title level={4}>{chartData.symbol}</Title></Typography>
+                <Typography><p className="chartName">{chartData.symbol}</p></Typography>
 
                 <ComposedChart width={500} height={250} data={data}>
                     <XAxis dataKey="date" />
@@ -657,7 +657,7 @@ function Home(props) {
                 {/* <Header className="site-layout-background" style={{ textAlign: 'center' }} style={{ padding: 0 }} >
                     {selectDiv}
                 </Header> */}
-                <Typography><Title level={3}>Popular Stock Prices</Title></Typography>
+                <Typography><p className="chartName">Popular Stock Prices</p></Typography>
                 <Row gutter={16}>
                     {body}
                 </Row>
