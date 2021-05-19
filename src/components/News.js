@@ -36,8 +36,8 @@ const News = (props) => {
     const [searchTerm, setSearchTerm] = useState('');
     const baseUrl = "https://newsapi.org/v2/top-headlines?"
     const key = "apiKey=1e4211b8b7a3444cbbb2e736508f489a"
-    const serverUrl = "https://cors-anywhere.herokuapp.com/http://ownstockmodel.herokuapp.com/api/user/"
-
+   // const serverUrl = "https://cors-anywhere.herokuapp.com/http://ownstockmodel.herokuapp.com/api/user/"
+    const serverUrl = "http://localhost:3006/api/user/"
 
     //set delay because of API limitition...
     function sleep(ms) {

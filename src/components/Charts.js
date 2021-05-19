@@ -43,8 +43,8 @@ function Charts() {
     const func2 = "eod?"
     const func3 = "intraday?"
     const key2 = 'access_key=bc3f4991e9abb86d188bede651d502f4&'
-    const serverUrl = "https://cors-anywhere.herokuapp.com/http://ownstockmodel.herokuapp.com/api/user/"
-
+    //const serverUrl = "https://cors-anywhere.herokuapp.com/https://ownstockmodel.herokuapp.com/api/user/"
+    const serverUrl = "http://localhost:3006/api/user/"
 
 
     //set delay because of API limitition...
@@ -415,7 +415,7 @@ function Charts() {
         fetchData();
         //get user info
  
-        async function getUserData(){
+       
             if (content) {
                 const { currentUser } = content
                // console.log(currenUser);
@@ -424,9 +424,12 @@ function Charts() {
                     console.log('user id', userId)
                     try {
                         let user = await axios.get(serverUrl+userId);
+                        console.log(user);
                        // let user = Object.assign({},userTest)
                         console.log('test user here', user)
                         if(user){
+                            let sl = user.data;
+                            console.log('sl',sl)
                             getIntodayData(user.data.stockList);
                             getOneMonthData(user.data.stockList);
                             getThreeMonthData(user.data.stockList);
@@ -445,8 +448,8 @@ function Charts() {
     
     
             }
-        }
-        getUserData()
+        
+      
 
 
     }, [])
@@ -617,8 +620,10 @@ function Charts() {
         showData = userSixMonData;
     } else if (timeType === '1year') {
         showData = userOneYearData;
-    } else {
+    } else if(timeType === 'today') {
         showData = userData; // intraday data
+    }else{
+        showData = chartData
     }
     // console.log('showData', showData);
 
@@ -686,7 +691,8 @@ function Charts() {
                 return buildBarChart(chart);
             })
         }
-
+    }
+    if(chartData || showData){
         return (
             <div>
                 <Header className="site-layout-background" style={{ textAlign: 'center' }} style={{ padding: 0 }} >
