@@ -417,7 +417,7 @@ function Charts() {
         async function getUserData(){
             if (content) {
                 const { currentUser } = content
-    
+                console.log(currenUser);
                 if (currentUser) {
                     let userId = currentUser.uid 
                     console.log('user id', userId)
