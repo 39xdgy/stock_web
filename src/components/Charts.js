@@ -56,6 +56,7 @@ function Charts() {
     useEffect(async () => {
         async function fetchData() {
             try {
+                
                 console.log("user not login useEffect fired.")
                 let resultList = [];
                 for (let i = 0; i < symbol.length; i++) {
@@ -422,7 +423,8 @@ function Charts() {
                     let userId = currentUser.uid 
                     console.log('user id', userId)
                     try {
-                        let user = await axios.get(serverUrl+userId);
+                       // let user = await axios.get(serverUrl+userId);
+                    
                         if(user){
                             getIntodayData(user.stockList);
                             getOneMonthData(user.stockList);
