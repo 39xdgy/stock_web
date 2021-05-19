@@ -230,63 +230,63 @@ const News = (props) => {
         getUserData();
 
     }, [])
-    let searchDataDiv = null;
-    useEffect(() => {
-        async function fetchSearchNews() {
+    // let searchDataDiv = null;
+    // useEffect(() => {
+    //     async function fetchSearchNews() {
 
-            let resultList = []
+    //         let resultList = []
 
-            console.log('search news useEffect fired.\n');
+    //         console.log('search news useEffect fired.\n');
 
-            let url = baseUrl + `q=${searchTerm}&${key}`
-            try {
-                const news = await axios.get(url);
-                if (news.data && news.data.articles) {
-                    // console.log(news.data.articles)
-                    if (news.data.articles.length > 0) {
-                        for (let j = 0; j < news.data.articles.length; j++) {
-                            let currNews = news.data.articles[j];
-                            let key = uuidv4();
-                            //  console.log('publicNews:',currNews);
-                            // imageProcess(key,currNews.urlToImage);
-                            // to do :using imageMagick to process
-                            let newsDate = new Date(currNews.publishedAt).toLocaleString()
-                            //  console.log(newsDate);
-                            let item = {
-                                key: key,
-                                title: currNews.title,
-                                url: currNews.url,
-                                //  image: `../img/${key}-resized.jpg`,
-                                image: currNews.urlToImage,
-                                content: currNews.content,
-                                description: currNews.description,
-                                source: currNews.source.name,
-                                author: currNews.author,
-                                date: newsDate
+    //         let url = baseUrl + `q=${searchTerm}&${key}`
+    //         try {
+    //             const news = await axios.get(url);
+    //             if (news.data && news.data.articles) {
+    //                 // console.log(news.data.articles)
+    //                 if (news.data.articles.length > 0) {
+    //                     for (let j = 0; j < news.data.articles.length; j++) {
+    //                         let currNews = news.data.articles[j];
+    //                         let key = uuidv4();
+    //                         //  console.log('publicNews:',currNews);
+    //                         // imageProcess(key,currNews.urlToImage);
+    //                         // to do :using imageMagick to process
+    //                         let newsDate = new Date(currNews.publishedAt).toLocaleString()
+    //                         //  console.log(newsDate);
+    //                         let item = {
+    //                             key: key,
+    //                             title: currNews.title,
+    //                             url: currNews.url,
+    //                             //  image: `../img/${key}-resized.jpg`,
+    //                             image: currNews.urlToImage,
+    //                             content: currNews.content,
+    //                             description: currNews.description,
+    //                             source: currNews.source.name,
+    //                             author: currNews.author,
+    //                             date: newsDate
 
-                            }
+    //                         }
 
-                            resultList.push(item);
-                        }
-                        setSearchNews(resultList);
-                        setLoading(false);
-                    }
-                }
-            } catch (error) {
-                console.log(error)
-            }
+    //                         resultList.push(item);
+    //                     }
+    //                     setSearchNews(resultList);
+    //                     setLoading(false);
+    //                 }
+    //             }
+    //         } catch (error) {
+    //             console.log(error)
+    //         }
 
 
-        }
-        if (searchTerm) {
-            fetchSearchNews();
-        }
+    //     }
+    //     if (searchTerm) {
+    //         fetchSearchNews();
+    //     }
 
-    }, [searchTerm]);
-    //console.log(props)
-    const searchValue = async (value) => {
-        setSearchTerm(value);
-    };
+    // }, [searchTerm]);
+    // //console.log(props)
+    // const searchValue = async (value) => {
+    //     setSearchTerm(value);
+    // };
     // build news slide
     const buildSlide = (news) => {
 

@@ -38,7 +38,7 @@ function App() {
                 <Route exact path='/aboutUs' component = {About}/>
                 <PrivateRoute path="/account" component={Account} />
                 <PrivateRoute path="/profile" component={Profile} />
-                <Route exact path='/aboutus' component={About} />
+              
               </div>
             </Content>
           </Layout>
