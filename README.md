@@ -6,7 +6,7 @@
 npm i
 npm start
 ```
-- Or go to our deployed web: [ownstock.app](ownstock.app)
+- Or go to our deployed web: [ownstock.app](http://ownstock.app)
 
 ## Features
 - User registration and log in
@@ -17,13 +17,12 @@ npm start
 - Ranking of most popular models 
 - Notifications (emails) to the users when some event happens
 ## Three Technologies from CS554 Course
-1 Firebase Auth
-2 React
-3 Redis
+- Firebase Auth
+- React
+- Redis
 ## Two Independent Technologies
-1 Recharts
-2 ImageMagic
-3 (deploy...)
+- Recharts
+- Web deployment using Heroku 
 
 
 

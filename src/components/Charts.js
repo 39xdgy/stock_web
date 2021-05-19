@@ -8,7 +8,7 @@ import { Layout, Row, Col, Select, Radio, Alert, Typography, BackTop } from 'ant
 import { BarChart, Bar, Line, Area, ComposedChart, LineChart, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
 
 const { Header } = Layout;
-const userTest = { id: 'idabc', stockList: ['AAPL', 'IBM', 'BA', 'GOOGL', 'FB', 'NVDA'] }
+const userTest = { id: 'idabc', stockList: ['AAPL', 'IBM', 'BA', 'GOOGL', 'FB'] }
 let testMode = false;
 
 const style = {
@@ -42,7 +42,7 @@ function Charts() {
     const baseUrl2 = 'http://api.marketstack.com/v1/'
     const func2 = "eod?"
     const func3 = "intraday?"
-    const key2 = 'access_key=bf8eddbcab2ddc7e3df6ad363bb3ac55&'
+    const key2 = 'access_key=bc3f4991e9abb86d188bede651d502f4&'
     const serverUrl = "https://cors-anywhere.herokuapp.com/http://ownstockmodel.herokuapp.com/api/user/"
 
 
@@ -56,6 +56,7 @@ function Charts() {
     useEffect(async () => {
         async function fetchData() {
             try {
+                
                 console.log("user not login useEffect fired.")
                 let resultList = [];
                 for (let i = 0; i < symbol.length; i++) {
@@ -417,18 +418,20 @@ function Charts() {
         async function getUserData(){
             if (content) {
                 const { currentUser } = content
-    
+               // console.log(currenUser);
                 if (currentUser) {
                     let userId = currentUser.uid 
                     console.log('user id', userId)
                     try {
                         let user = await axios.get(serverUrl+userId);
+                       // let user = Object.assign({},userTest)
+                        console.log('test user here', user)
                         if(user){
-                            getIntodayData(user.stockList);
-                            getOneMonthData(user.stockList);
-                            getThreeMonthData(user.stockList);
-                            getSixMonthData(user.stockList);
-                            getOneYearData(user.stockList);
+                            getIntodayData(user.data.stockList);
+                            getOneMonthData(user.data.stockList);
+                            getThreeMonthData(user.data.stockList);
+                            getSixMonthData(user.data.stockList);
+                            getOneYearData(user.data.stockList);
                         }else{
                             throw 'user not found'
                         }
