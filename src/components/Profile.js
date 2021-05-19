@@ -10,8 +10,8 @@ const Profile = (props) => {
     const [profileData, setProfileData] = useState(undefined);
     const [profileId, setprofileId] = useState('')
     const [loading, setloading] = useState(true);
-    //let base_url = `http://ownstockmodel.herokuapp.com/api/user/${currentUser.currentUser.uid}`
-    const base_url = `http://localhost:3006/api/user/${currentUser.currentUser.uid}`
+
+    let base_url = `https://cors-anywhere.herokuapp.com/http://ownstockmodel.herokuapp.com/api/user/${currentUser.currentUser.uid}`
 
     const updateProfile = async (event) => {
         event.preventDefault();
@@ -44,7 +44,9 @@ const Profile = (props) => {
     useEffect(() => {
         async function fetchData() {
             try {
-               // base_url = `http://ownstockmodel.herokuapp.com/api/user/${currentUser.currentUser.uid}`
+
+                base_url = `https://cors-anywhere.herokuapp.com/http://ownstockmodel.herokuapp.com/api/user/${currentUser.currentUser.uid}`
+
                 const user_info = await axios.get(base_url)
                 
                 if(user_info.data.userName === null && user_info.data.profileImg === null){

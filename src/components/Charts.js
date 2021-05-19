@@ -39,7 +39,7 @@ function Charts() {
     const symbol = ['DJI.INDX', 'NDX.INDX', 'NYA.INDX']
 
 
-    const baseUrl2 = 'http://api.marketstack.com/v1/'
+    const baseUrl2 = 'https://api.marketstack.com/v1/'
     const func2 = "eod?"
     const func3 = "intraday?"
     const key2 = 'access_key=bc3f4991e9abb86d188bede651d502f4&'

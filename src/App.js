@@ -1,6 +1,6 @@
 import React from 'react';
 import './App.css';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import Navigation from './components/Navigation';
 import Home from './components/Home';
 import Charts from './components/Charts'
@@ -14,6 +14,11 @@ import Account from './components/Account'
 import PrivateRoute from './components/PrivateRoute'
 import Profile from './components/Profile';
 import About from './components/About';
+import Quote from "./components/modelComponents/TradingData/StockDataFolder";
+import NotFound from "./components/modelComponents/TradingData/NotFound";
+import WithInstantSearch from "./components/modelComponents/TradingData/WithInstantSearch";
+import Header from "./components/modelComponents/TradingData/Header";
+import { DataProvider } from "./components/modelComponents/TradingData/MarketDataDetails";
 
 const {Content}=Layout;
 
@@ -42,6 +47,23 @@ function App() {
                 <PrivateRoute path="/account" component={Account} />
                 <PrivateRoute path="/profile" component={Profile} />
               
+                <Route exact path='/model' render={props =>
+                                    <DataProvider>
+                                    <WithInstantSearch>
+                                        <Header />
+                                    </WithInstantSearch>
+                                    </DataProvider>
+                                  } />
+                <Route exact path='/model/:id' render={props => (
+                          <DataProvider>
+                        <WithInstantSearch>
+                            <Header />
+                        </WithInstantSearch>
+                        <br/>
+                          <Quote symbol={props.match.params.id.toLowerCase()} {...props} />
+                          </DataProvider>
+                        )}
+                      />
               </div>
             </Content>
           </Layout>
