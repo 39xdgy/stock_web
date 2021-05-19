@@ -1,11 +1,41 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Redirect } from 'react-router-dom';
 import { doCreateUserWithEmailAndPassword } from '../firebase/FirebaseFunctions';
 import {AuthContext}  from '../firebase/Auth';
 import SocialSignIn from './SocialSignIn';
+import axios from 'axios';
 function SignUp() {
   const  currentUser  = useContext(AuthContext);
+  const [ifcurrentUser, setcurrentUser] = useState(false);
   const [pwMatch, setPwMatch] = useState('');
+/*
+  const bool_func = async () => {
+    let obj_info = {
+      userName: currentUser.currentUser.email,
+      profileImg: ''
+    }
+    console.log("bro")
+    setcurrentUser(true)
+    await axios.post(`https://localhost:3006/api/user/${currentUser.currentUser.uid}`, obj_info)
+  }
+
+  useEffect(() => {
+    console.log("in useEffect, Signup")
+    
+
+    if (currentUser.currentUser) {
+      console.log(currentUser.currentUser.uid)
+      bool_func()
+    }
+
+  }, [])
+*/
+
+
+  if(currentUser.currentUser){
+    return <Redirect to="/" />;
+  }
+
   const handleSignUp = async (e) => {
     e.preventDefault();
     const { displayName, email, passwordOne, passwordTwo } = e.target.elements;
@@ -15,6 +45,7 @@ function SignUp() {
     }
 
     try {
+      console.log("Start creating the user")
       await doCreateUserWithEmailAndPassword(
         email.value,
         passwordOne.value,
@@ -25,9 +56,7 @@ function SignUp() {
     }
   };
 
-  if (currentUser.currentUser) {
-    return <Redirect to="/" />;
-  }
+  
 
   return (
     <div>

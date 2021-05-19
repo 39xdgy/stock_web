@@ -8,7 +8,7 @@ import { Layout, Row, Col, Select, Radio, Alert, Typography, BackTop } from 'ant
 import { BarChart, Bar, Line, Area, ComposedChart, LineChart, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
 
 const { Header } = Layout;
-const userTest = { id: 'idabc', stockList: ['AAPL', 'IBM', 'BA', 'GOOGL', 'FB', 'NVDA'] }
+const userTest = { id: 'idabc', stockList: ['AAPL', 'IBM', 'BA', 'GOOGL', 'FB'] }
 let testMode = false;
 
 const style = {
@@ -43,7 +43,7 @@ function Charts() {
     const func2 = "eod?"
     const func3 = "intraday?"
     const key2 = 'access_key=bf8eddbcab2ddc7e3df6ad363bb3ac55&'
-    const serverUrl = "https://cors-anywhere.herokuapp.com/http://ownstockmodel.herokuapp.com/api/user/"
+    const serverUrl = "http://ownstockmodel.herokuapp.com/api/user/"
 
 
 
@@ -423,12 +423,18 @@ function Charts() {
                     console.log('user id', userId)
                     try {
                         let user = await axios.get(serverUrl+userId);
+                        let stockList = user.data.stockList
+                        console.log(typeof(stockList))
                         if(user){
-                            getIntodayData(user.stockList);
-                            getOneMonthData(user.stockList);
-                            getThreeMonthData(user.stockList);
-                            getSixMonthData(user.stockList);
-                            getOneYearData(user.stockList);
+                            console.log(stockList)
+                            getIntodayData(stockList);
+                            getOneMonthData(stockList);
+                            getThreeMonthData(stockList);
+                            getSixMonthData(stockList);
+                            getOneYearData(stockList);
+                            console.log("test in chart fin")
+                            
+                            
                         }else{
                             throw 'user not found'
                         }
