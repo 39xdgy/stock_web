@@ -23,7 +23,7 @@ const Navigation = () => {
                     }}
                 >
                     <Menu theme='dark' defaultSelectedKeys={['0']} mode='inline'>
-                        <Menu.Item key='1' className='logo'>
+                        <Menu.Item key='0' className='logo'>
                             <Link to='/'>STOCKWEB</Link>
                         </Menu.Item>
                         <Menu.Item key='1'>

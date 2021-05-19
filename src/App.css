@@ -566,3 +566,14 @@ button:disabled {
 	margin-left:auto;
 	margin-left:auto
 }
+p.chartName{
+	font-size: x-large;
+	Color:rgb(4, 4, 65)
+}
+p.chartTitle{
+	font-size: xx-large;
+	Color:rgb(4, 4, 65)
+}
+.ant-radio-checked .ant-radio-button .ant-radio-button-checked .ant-radio-inner {
+	border-color: #0077d7;
+  }
