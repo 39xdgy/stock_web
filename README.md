@@ -6,7 +6,7 @@
 npm i
 npm start
 ```
-- Or go to our deployed web: [ownstock.app](ownstock.app)
+- Or go to our deployed web: [ownstock.app](http://ownstock.app)
 
 ## Features
 - User registration and log in
