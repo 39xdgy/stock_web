@@ -6,8 +6,7 @@
 ## How to run
 - Run on localhost:3000:
 ```
-npm i --legacy-peer-deps
-npm i audit fix
+
 npm i
 npm i --legacy-peer-deps
 npm audit fix
