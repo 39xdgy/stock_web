@@ -1,0 +1,13 @@
+{
+	"folders": [
+		{
+			"path": "../.."
+		},
+		{
+			"path": "../../../lab6"
+		}
+	],
+	"settings": {
+		"git.ignoreLimitWarning": true
+	}
+}
