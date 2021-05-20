@@ -25,10 +25,11 @@ npm start
 ## Three Technologies from CS554 Course
 - Firebase Auth
 - React
-- Redis
+- Context API
 ## Two Independent Technologies
 - Recharts
 - Web deployment using Heroku 
+- D3
 
 ## Tips:
 - Please do not visit our web page for too many times due to the API restrictions.(Unless you are our professor.)
