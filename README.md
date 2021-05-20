@@ -4,6 +4,8 @@
 - Run on localhost:3000:
 ```
 npm i
+npm i --legacy-peer-deps
+npm audit fix
 npm start
 ```
 - Or go to our deployed web: [ownstock.app](http://ownstock.app)

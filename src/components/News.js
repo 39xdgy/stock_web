@@ -214,6 +214,7 @@ const News = (props) => {
                     try {
                         const user = await axios.get(serverUrl + userId);
                         if (user) {
+                            console.log('news user',user)
                             fetchNewsList(user.data.stockList);
                         } else {
                             throw 'user not found'
